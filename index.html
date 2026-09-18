@@ -10,7 +10,7 @@
 <body>
   <header class="topbar">
     <div>
-      <div class="eyebrow">EXECUTABLE SCIENCE / V0</div>
+      <div class="eyebrow">EXECUTABLE SCIENCE / V1</div>
       <h1>TheoryLab</h1>
       <p>Mechanisms become nodes. Theories become graphs. Experiments leave receipts. Discovery history becomes replayable.</p>
     </div>
@@ -23,7 +23,7 @@
 
   <section class="status-strip">
     <div><strong id="stat-nodes">—</strong><span>node contracts</span></div>
-    <div><strong id="stat-theories">—</strong><span>theories</span></div>
+    <div><strong id="stat-theories">—</strong><span>theories</span></div>\n    <div><strong id="stat-components">—</strong><span>Genealogy objects</span></div>
     <div><strong id="stat-gates">—</strong><span>seed gates</span></div>
     <div><strong id="stat-attempts">—</strong><span>replay attempts</span></div>
     <div class="status-pill"><i></i><span id="runtime-status">loading contracts…</span></div>
@@ -33,7 +33,7 @@
     <button class="tab active" data-view="workbench">Workbench</button>
     <button class="tab" data-view="nodes">Node library</button>
     <button class="tab" data-view="receipts">Evidence</button>
-    <button class="tab" data-view="replay">Replay</button>
+    <button class="tab" data-view="replay">Replay</button>\n    <button class="tab" data-view="knowledge">Knowledge</button>
     <button class="tab" data-view="ai">AI interface</button>
   </nav>
 
@@ -113,6 +113,28 @@
       </div>
     </section>
 
+
+    <section class="view" data-view="knowledge">
+      <div class="split">
+        <article class="panel">
+          <div class="panel-head"><div><div class="eyebrow">CURATED GENEALOGY SLICE</div><h2>Mechanisms that can travel</h2></div><span class="badge" id="knowledge-count">—</span></div>
+          <p class="question">These are not whole-repo executable nodes. Each card carries the smallest reusable object together with the boundary that must travel with it.</p>
+          <input id="knowledge-search" placeholder="filter mechanism, repo, tag…">
+          <div id="knowledge-library" class="node-library"></div>
+        </article>
+        <aside class="panel">
+          <div class="eyebrow">OPEN DISCRIMINATORS</div>
+          <h2>Questions worth spending a run on</h2>
+          <div id="open-questions"></div>
+          <div class="inspect-block">
+            <small>AI COMMAND</small>
+            <pre>python -m theorylab propose "Can useful computational coordinates self-align with persistent write?" --json</pre>
+          </div>
+          <p class="fineprint">The proposer ranks mechanisms and known attackers separately, then emits a plan-only graph until every required executor exists.</p>
+        </aside>
+      </div>
+    </section>
+
     <section class="view" data-view="ai">
       <div class="split">
         <article class="panel">
@@ -139,7 +161,7 @@
   </main>
 
   <footer>
-    <span>TheoryLab v0 · infrastructure, not an autonomous scientist</span>
+    <span>TheoryLab v1 · grounded proposal baseline, not an autonomous scientist</span>
     <span>Dependency-free browser microscope · Python execution runtime</span>
   </footer>
   <script src="assets/app.js"></script>

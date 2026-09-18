@@ -107,6 +107,33 @@ index.html + assets/         GitHub Pages microscope
 tests/                      contract + execution tests
 ```
 
+## v1 — Genealogy-grounded proposal generation
+
+v1 imports a deliberately small slice of the current Genealogy ledger: **15 reusable objects** plus a separate bank of negative results, attacker rules, and unresolved questions.
+
+The import does **not** claim that those 15 repositories are plug-compatible executables. Each record says:
+
+- what the smallest reusable object appears to be;
+- what survived its own attacks;
+- what boundary or negative result must travel with it;
+- where the record came from.
+
+A deterministic proposer can now start from a natural-language scientific question:
+
+```bash
+python -m theorylab propose \
+  "Can useful computational coordinates and persistent write self-align through experience?" \
+  --json
+```
+
+The proposal contains a question family, ranked Genealogy mechanisms, ranked attackers/negative results, a conceptual graph, an experiment design, predeclared gates, and an explicit list of missing executors.
+
+**A proposed graph is not silently treated as executable or evidential.** If required adapters do not exist, the proposal remains `plan-only`.
+
+Current proposal families are learned basis/operator alignment, active mechanism identification, causal algorithm decoding, structure→function, computational matter/persistent medium, and a generic matched-attacker fallback.
+
+The proposer is intentionally simple and auditable: deterministic token/family scoring over committed JSON. It is a calibration baseline for a future smarter theory constructor, not the final search policy.
+
 ## Status
 
-v0 is infrastructure. It does **not** autonomously invent good theories yet. It makes the objects required for that next step explicit and executable.
+v0 made theories executable. v1 makes a first part of the accumulated research history **machine-selectable for theory construction**, while keeping historical claims, negative results, proposal plans, executable theories, and empirical receipts as separate objects.

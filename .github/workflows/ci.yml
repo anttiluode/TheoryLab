@@ -18,7 +18,11 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Validate machine contracts
         run: python -m theorylab validate
+      - name: Check browser JavaScript
+        run: node --check assets/app.js
       - name: Run tests
         run: python -m unittest discover -s tests -v
       - name: Execute seed theory
         run: python -m theorylab run theories/noncommuting_write.json --json
+      - name: Generate grounded proposal
+        run: python -m theorylab propose "Can useful computational coordinates and persistent write self-align through experience?" --json

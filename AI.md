@@ -91,3 +91,50 @@ When importing from Genealogy, prefer the smallest surviving mechanism plus its 
 When importing from PerceptionLab, adapt an existing executable node only when its runtime contract is deterministic enough to test and its dependencies are explicit.
 
 A textual insight can enter as an epistemic constraint even when no executable implementation exists yet.
+
+
+## 9. Retrieve historical mechanisms and constraints
+
+Before composing from scratch, read:
+
+- `knowledge/genealogy_components.json` — curated reusable objects from 15 well-characterized repositories;
+- `knowledge/constraints.json` — negative results, matched attackers and epistemic boundaries;
+- `knowledge/open_questions.json` — unresolved discriminators.
+
+The component import is **not** an executable node catalog. A historical component may be conceptually relevant while still needing an adapter.
+
+Never drop the `boundary` field when reusing a component. The boundary is part of the reusable scientific object.
+
+## 10. Generate a grounded proposal
+
+Use:
+
+```bash
+python -m theorylab propose "YOUR QUESTION" --json
+```
+
+The proposer returns a `theorylab-proposal/v1` object containing a deterministic question-family classification, ranked historical components, ranked constraints/attackers, a conceptual graph, a candidate experiment, predeclared gates, and an explicit execution status with missing executors.
+
+A proposal is not a receipt. Do not cite its hypothesis as an observed result.
+
+## 11. Promotion rule: proposal → executable theory
+
+Promote a proposal only after every required mechanism has an executable adapter or declared external runner, ports and state semantics are explicit, matched attackers exist, the executable graph validates, and gates are fixed before the measured run.
+
+If any required executor is missing, preserve the proposal as `plan-only`.
+
+## 12. Discovery-policy separation
+
+TheoryLab now has two different search spaces:
+
+```text
+composition search
+    choose mechanisms + attackers + experiments
+    may propose combinations never run before
+
+replay search
+    choose where to spend attention in recorded discovery history
+    may NOT invent outcomes
+```
+
+Do not mix them. A composition proposal becomes part of replay history only after it is actually executed and an outcome is recorded.
