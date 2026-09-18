@@ -87,6 +87,18 @@
       "cost": 2,
       "outcome": "support",
       "observation": "All eight frozen gates passed across the eight-world synthetic panel. The result supports learnability in a PCA-friendly matched recurrent family and leaves online/local learning plus coordinate drift open."
+    },
+    {
+      "id": "promote-online-coordinate-tracking",
+      "parent": "promote-basis-alignment-gate",
+      "created_order": 7,
+      "theory": "online-coordinate-tracking-v3",
+      "variant": "online Sanger continuation versus frozen learner and stale initial oracle",
+      "score": 0.99,
+      "priority_hint": 0.995,
+      "cost": 2,
+      "outcome": "support",
+      "observation": "All seven predeclared gates passed. Online tracking won 8/8 matched worlds on alignment, written-operator rank and composition; a perfect initial basis left stale degraded below the continuing learner."
     }
   ]
 }

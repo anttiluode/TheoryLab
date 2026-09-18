@@ -166,3 +166,25 @@ python -m theorylab run theories/learned_basis_alignment.json --json
 The committed v2 receipt is `receipts/learned_basis_alignment.v2.json`.
 
 The PASS resolves only the constructed batch-covariance case. The remaining high-value discriminator is online/local coordinate learning under basis drift.
+
+## 14. Coordinate continuation result
+
+The `coordinate_tracking` proposal family is executable at:
+
+```text
+theories/online_coordinate_tracking.json
+```
+
+Its committed v3 receipt is `receipts/online_coordinate_tracking.v3.json`.
+
+The frozen result supports only the synthetic slow-drift continuation gate. It does not yet license the stronger ThirdWay T2 claim about delayed credit.
+
+After v3, the highest-value open discriminator in this lineage is:
+
+```text
+tracked computation + transported eligibility
+vs
+tracked computation + stale-coordinate eligibility
+```
+
+A future proposal should keep the coordinate tracker matched and change only where delayed credit is stored or transported.

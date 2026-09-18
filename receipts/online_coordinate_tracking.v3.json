@@ -1,0 +1,105 @@
+{
+  "format": "theorylab-receipt/v0",
+  "theory_id": "online-coordinate-tracking-v3",
+  "run_id": "online-coordinate-tracking-v3-runtime",
+  "generated_at": "2026-09-18T12:25:37.450960+00:00",
+  "status": "pass",
+  "source_ci": {
+    "workflow_run_id": 35344563869,
+    "job_id": 105598010974,
+    "python": "3.11",
+    "commit": "3d8d8b36d296f9542fa1db2799647160038d418d"
+  },
+  "measurements": {
+    "slow_coordinate_drift_panel.alignment_wins": 8,
+    "slow_coordinate_drift_panel.composition_wins": 8,
+    "slow_coordinate_drift_panel.frozen_alignment_median": 0.8562818828163228,
+    "slow_coordinate_drift_panel.frozen_composition_median": 0.5764723089438832,
+    "slow_coordinate_drift_panel.frozen_operator_rank_median": 3.6440807131868893,
+    "slow_coordinate_drift_panel.moving_oracle_composition_median": 0.7071067811865471,
+    "slow_coordinate_drift_panel.moving_oracle_operator_rank_median": 4,
+    "slow_coordinate_drift_panel.online_alignment_median": 0.9331992517677528,
+    "slow_coordinate_drift_panel.online_composition_median": 0.6464309578191874,
+    "slow_coordinate_drift_panel.online_operator_rank_median": 3.8264529987306366,
+    "slow_coordinate_drift_panel.operator_rank_wins": 8,
+    "slow_coordinate_drift_panel.stale_oracle_alignment_median": 0.7115951169452791,
+    "slow_coordinate_drift_panel.stale_oracle_composition_median": 0.47654831631470806,
+    "slow_coordinate_drift_panel.stale_oracle_operator_rank_median": 2.8448555472620747
+  },
+  "gates": [
+    {
+      "id": "online_alignment_wins_most_worlds",
+      "lhs": 8,
+      "op": ">=",
+      "rhs": 7,
+      "passed": true,
+      "meaning": "Continuous online learning ends closer to the current resident coordinate family than its identically pretrained frozen counterpart in at least 7/8 worlds."
+    },
+    {
+      "id": "online_operator_rank_wins_most_worlds",
+      "lhs": 8,
+      "op": ">=",
+      "rhs": 7,
+      "passed": true,
+      "meaning": "Online continuation preserves a richer written-operator family than freezing the same learner in at least 7/8 worlds."
+    },
+    {
+      "id": "online_composition_wins_most_worlds",
+      "lhs": 8,
+      "op": ">=",
+      "rhs": 7,
+      "passed": true,
+      "meaning": "Online continuation preserves stronger A→B versus B→A composition separation than the frozen learner in at least 7/8 worlds."
+    },
+    {
+      "id": "online_beats_stale_perfect_start_on_operator_rank",
+      "lhs": 3.8264529987306366,
+      "op": ">",
+      "rhs": 2.8448555472620747,
+      "passed": true,
+      "meaning": "A continually updated imperfect learner beats an initially perfect modal basis that is left behind as the computation moves."
+    },
+    {
+      "id": "online_beats_stale_perfect_start_on_composition",
+      "lhs": 0.6464309578191874,
+      "op": ">",
+      "rhs": 0.47654831631470806,
+      "passed": true,
+      "meaning": "The continuation advantage survives the functional composition readout."
+    },
+    {
+      "id": "online_below_moving_oracle_operator_rank",
+      "lhs": 3.8264529987306366,
+      "op": "<=",
+      "rhs": 4,
+      "passed": true,
+      "meaning": "The online learner remains bounded by the current-coordinate oracle."
+    },
+    {
+      "id": "online_below_moving_oracle_composition",
+      "lhs": 0.6464309578191874,
+      "op": "<=",
+      "rhs": 0.7071067811865471,
+      "passed": true,
+      "meaning": "The online composition result remains bounded by the moving oracle."
+    }
+  ],
+  "claims": {
+    "supported": [
+      "In this constructed slowly drifting recurrent family, continued online Sanger-style coordinate learning preserves the current write/operator organization better than freezing the same learner before drift.",
+      "A perfect initial modal basis becomes functionally worse than an imperfect basis that continues to adapt, supporting the narrow statement that computational identity behaves like a continuation rather than a fixed coordinate location in this world."
+    ],
+    "limited": [
+      "The drift is smooth, low-dimensional and slow relative to the learner; the system is still a constructed symmetric linear recurrence.",
+      "Periodic Gram-Schmidt stabilization makes this Sanger-style learner online but not strictly synapse-local.",
+      "No delayed credit signal is transported yet; this gate tests coordinate identity/continuation, not ThirdWay's full credit-transport claim."
+    ],
+    "killed": []
+  },
+  "limitations": [
+    "The hidden mode rotation law is supplied by the synthetic world.",
+    "The online learner receives raw state samples but not sparse event-limited observations.",
+    "The final operator audit uses the same synthetic write law as v2.",
+    "The next gate should add delayed credit or task learning whose eligibility trace must follow the moving coordinates."
+  ]
+}
