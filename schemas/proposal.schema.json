@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://anttiluode.github.io/TheoryLab/schemas/proposal.schema.json",
+  "title": "TheoryLab Proposal v1",
+  "type": "object",
+  "required": ["format", "question", "family", "hypothesis", "selected_components", "selected_constraints", "candidate_graph", "experiment", "attackers", "predeclared_gates", "execution", "grounding"],
+  "properties": {
+    "format": {"const": "theorylab-proposal/v1"},
+    "question": {"type": "string", "minLength": 1},
+    "family": {"type": "string"},
+    "hypothesis": {"type": "string"},
+    "selected_components": {"type": "array"},
+    "selected_constraints": {"type": "array"},
+    "candidate_graph": {"type": "object"},
+    "experiment": {"type": "string"},
+    "attackers": {"type": "array", "items": {"type": "string"}},
+    "predeclared_gates": {"type": "array", "items": {"type": "string"}},
+    "execution": {"type": "object"},
+    "grounding": {"type": "object"}
+  },
+  "additionalProperties": true
+}

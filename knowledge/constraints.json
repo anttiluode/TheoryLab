@@ -1,0 +1,89 @@
+{
+  "format": "theorylab-constraints/v1",
+  "constraints": [
+    {
+      "id": "constraint.order_effect_not_enough",
+      "kind": "attacker",
+      "statement": "Order dependence by itself is too weak; require evidence that the first event changes the operator encountered by the second after fast transients are controlled.",
+      "tags": ["operator", "order", "history", "noncommutativity"],
+      "source": "FrequencyAddressedState-dependentOperatorComposition / NotSoSimpleNeuron"
+    },
+    {
+      "id": "constraint.geometry_not_privileged",
+      "kind": "negative-result",
+      "statement": "Do not attribute the current frequency-addressed operator family uniquely to cable geometry; a matched modal state-space realization reproduces the gate.",
+      "tags": ["geometry", "cable", "modal", "operator", "attacker"],
+      "source": "FrequencyAddressedState-dependentOperatorComposition v3"
+    },
+    {
+      "id": "constraint.generic_recurrence_not_enough",
+      "kind": "negative-result",
+      "statement": "Matched dense recurrence with arbitrary visible-coordinate adaptation is not sufficient under the current untrained gate; compare against same-fast-matrix coordinate-aligned adaptation.",
+      "tags": ["recurrent", "basis", "alignment", "adaptation", "operator"],
+      "source": "FrequencyAddressedState-dependentOperatorComposition v4"
+    },
+    {
+      "id": "constraint.learnability_open",
+      "kind": "open-boundary",
+      "statement": "Supplied basis alignment is not evidence that ordinary learning can discover the useful adaptation coordinates. Treat endogenous coordinate discovery as a separate gate.",
+      "tags": ["basis", "learning", "alignment", "modal", "open-question"],
+      "source": "FrequencyAddressedState-dependentOperatorComposition v4"
+    },
+    {
+      "id": "constraint.purity_can_cheat",
+      "kind": "attacker",
+      "statement": "A purity ratio can improve while absolute target gain vanishes. Track absolute signal/gain alongside selectivity.",
+      "tags": ["purity", "mode", "gain", "measurement", "attacker"],
+      "source": "DendriteAsIteratedFeedbackOperator"
+    },
+    {
+      "id": "constraint.active_needs_boring_controls",
+      "kind": "attacker",
+      "statement": "Any active-probing advantage should face equal-cost random, balanced/round-robin and fixed-cover policies; adaptivity does not earn privilege from an unbalanced random baseline.",
+      "tags": ["active-probing", "intervention", "random", "fixed-cover", "measurement-cost"],
+      "source": "RajoitustenHierarkia / FrequencyAddressedNonlinearModalCell lineage"
+    },
+    {
+      "id": "constraint.probe_cost_counts",
+      "kind": "attacker",
+      "statement": "Charge intervention/probe cost explicitly and sweep hidden-cause density before generalizing an active-identification advantage.",
+      "tags": ["active-probing", "cost", "density", "identification", "budget"],
+      "source": "Genealogy open question active-intervention-cost-density"
+    },
+    {
+      "id": "constraint.nonidentifiable_is_valid",
+      "kind": "epistemic",
+      "statement": "If available interventions cannot separate competing hidden mechanisms, return NOT_IDENTIFIABLE instead of forcing one explanation.",
+      "tags": ["identifiability", "causal", "decoder", "intervention"],
+      "source": "NeuralAlgorithmDecoding / AlternativeNeuron"
+    },
+    {
+      "id": "constraint.hidden_geometry_not_causality",
+      "kind": "attacker",
+      "statement": "Clean hidden-state geometry is not itself a causal program; require counterfactual or intervention fidelity of the extracted abstraction.",
+      "tags": ["algorithm", "decoder", "geometry", "causal-abstraction", "intervention"],
+      "source": "NeuralAlgorithmDecoding"
+    },
+    {
+      "id": "constraint.explicit_addressing_is_supplied",
+      "kind": "boundary",
+      "statement": "WHERE/WHICH/SIGN carrier addressing is an explicit coupling in InformationFlow, not an emergent property of unmodified Navier-Stokes.",
+      "tags": ["field", "frequency", "phase", "addressing", "fluid"],
+      "source": "InformationFlow"
+    },
+    {
+      "id": "constraint.embedding_vs_intrinsic_geometry",
+      "kind": "attacker",
+      "statement": "Pure world-space re-embedding can leave an intrinsic cable operator unchanged. Separate intrinsic metric/topology from what the structure samples in world space.",
+      "tags": ["structure", "geometry", "morphology", "world", "operator"],
+      "source": "Operaattori"
+    },
+    {
+      "id": "constraint.coarse_summary_attacker",
+      "kind": "attacker",
+      "statement": "When claiming fine structure matters, match coarse graph/spectral summaries and ask whether fine organization predicts downstream response beyond them.",
+      "tags": ["structure", "geometry", "spectrum", "attacker", "function"],
+      "source": "Genealogy open question structure-functional-consequence"
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "format": "theorylab-knowledge/v1",
+  "source": {
+    "repository": "https://github.com/anttiluode/Genealogy",
+    "snapshot_date": "2026-09-18",
+    "note": "Curated import of small reusable objects. These are not executable wrappers around whole repositories."
+  },
+  "components": [
+    {
+      "id": "genealogy.frequency_addressed_operator_composition",
+      "repo": "FrequencyAddressedState-dependentOperatorComposition",
+      "url": "https://github.com/anttiluode/FrequencyAddressedState-dependentOperatorComposition",
+      "kind": "mechanism",
+      "confidence": "high",
+      "reusable_object": "Addressed resident dynamics with persistent rewrite aligned to the same computational coordinates.",
+      "survived": "Cable geometry is not required under the current gate; modal-aligned persistent adaptation restores a richer written-operator family than arbitrary visible-coordinate adaptation in the matched dense control.",
+      "boundary": "The alignment is supplied rather than learned; generic recurrence alone is insufficient under the current untrained test.",
+      "tags": ["operator", "basis", "modal", "frequency", "persistent-state", "write", "noncommutativity", "alignment"],
+      "source_pass": "data/passes/frequency-addressed-operator-composition.json"
+    },
+    {
+      "id": "genealogy.not_so_simple_neuron",
+      "repo": "NotSoSimpleNeuron",
+      "url": "https://github.com/anttiluode/NotSoSimpleNeuron",
+      "kind": "mechanism",
+      "confidence": "high",
+      "reusable_object": "A sparse route accesses a resident state-conditioned operator; local Jacobians compose along history.",
+      "survived": "Active local state makes the effective Jacobian history-dependent and event order can change the two-step operator.",
+      "boundary": "Linear morphology collapses to a same-dimensional modal realization, and the nonlinear result does not establish unique dendritic expressivity.",
+      "tags": ["operator", "state", "jacobian", "history", "route", "nonlinearity", "composition"],
+      "source_pass": "data/passes/not-so-simple-neuron.json"
+    },
+    {
+      "id": "genealogy.another_odd_thing",
+      "repo": "AnotherOddThing",
+      "url": "https://github.com/anttiluode/AnotherOddThing",
+      "kind": "intervention",
+      "confidence": "high",
+      "reusable_object": "A small addressed intervention reveals computation already resident at its destination.",
+      "survived": "Active pokes can resolve passive ambiguity and local state can constrain expression and plasticity regimes.",
+      "boundary": "The current level-only set-point task does not require the richer two-timescale trace; a calibrated scalar can preserve the qualitative transition.",
+      "tags": ["active-probing", "intervention", "identifiability", "resident-operator", "attacker", "plasticity"],
+      "source_pass": "data/passes/another-odd-thing.json"
+    },
+    {
+      "id": "genealogy.evox",
+      "repo": "EvoX",
+      "url": "https://github.com/anttiluode/EvoX",
+      "kind": "learner",
+      "confidence": "high",
+      "reusable_object": "Expected-information intervention selection over executable hypotheses, followed by reuse of the identified mechanism.",
+      "survived": "The domain-agnostic active-identification engine passed four of five frozen canonical adapters and reuse was cheaper than restart once the useful mechanism was identified.",
+      "boundary": "The causal-circuit adapter improved over random but missed the frozen identification-efficiency threshold; the overall cross-domain gate was not universal.",
+      "tags": ["active-probing", "bayesian", "mechanism-selection", "information-gain", "reuse", "search"],
+      "source_pass": "data/passes/evox.json"
+    },
+    {
+      "id": "genealogy.neural_algorithm_decoding",
+      "repo": "NeuralAlgorithmDecoding",
+      "url": "https://github.com/anttiluode/NeuralAlgorithmDecoding",
+      "kind": "evaluator",
+      "confidence": "high",
+      "reusable_object": "Recover the smallest executable causal abstraction that survives interventions and held-out tests.",
+      "survived": "A compact state-machine abstraction can be recovered exactly in a controlled trained system; the framework can also explicitly return NOT_IDENTIFIABLE.",
+      "boundary": "It does not establish decompilation of arbitrary large networks or uniqueness of one true hidden algorithm.",
+      "tags": ["algorithm-extraction", "causal-abstraction", "intervention", "identifiability", "state-machine", "decoder"],
+      "source_pass": "data/passes/algorithm-decoding.json"
+    },
+    {
+      "id": "genealogy.dendrite_iterated_feedback",
+      "repo": "DendriteAsIteratedFeedbackOperator",
+      "url": "https://github.com/anttiluode/DendriteAsIteratedFeedbackOperator",
+      "kind": "mechanism",
+      "confidence": "high",
+      "reusable_object": "Frequency-dependent physical dynamics feed a persistent local write that changes the operator encountered on replay.",
+      "survived": "The active branch supports pass bands, mixed-signal purification and a bounded task-relative structural fixed point after consequence-driven write.",
+      "boundary": "Purity alone is a misleading objective because target fraction can rise while absolute gain collapses.",
+      "tags": ["operator", "frequency", "local-write", "replay", "purification", "structural-fixed-point"],
+      "source_pass": "data/passes/operator-learning-bridge.json"
+    },
+    {
+      "id": "genealogy.alternative_neuron",
+      "repo": "AlternativeNeuron",
+      "url": "https://github.com/anttiluode/AlternativeNeuron",
+      "kind": "architecture",
+      "confidence": "high",
+      "reusable_object": "Three-clock loop: fast reversible intervention, medium consequence memory, slow operator/routing change.",
+      "survived": "Active pokes resolve passive ambiguity, persistent memory avoids rediscovery, and repeated useful traffic can reshape a slower operator.",
+      "boundary": "Intervention-equivalent hidden stories remain non-identifiable and simpler controls solve some of the synthetic tasks.",
+      "tags": ["active-intervention", "memory", "operator-learning", "causal-address", "multi-timescale"],
+      "source_pass": "data/passes/operator-learning-bridge.json"
+    },
+    {
+      "id": "genealogy.rajoitusten_hierarkia",
+      "repo": "RajoitustenHierarkia",
+      "url": "https://github.com/anttiluode/RajoitustenHierarkia",
+      "kind": "attacker",
+      "confidence": "high",
+      "reusable_object": "Evidence-economy attacker suite: matched measurement cost, static covers, cache age/TTL and stale-baseline controls.",
+      "survived": "Known factorization can improve transfer and data efficiency, while simple static covers and recency rules repeatedly beat more elaborate adaptive policies in tested worlds.",
+      "boundary": "Do not grant architectural privilege to adaptivity before boring fixed-panel and age-rule attackers are paid equally.",
+      "tags": ["attacker", "measurement-cost", "fixed-cover", "cache", "ttl", "adaptivity", "negative-result"],
+      "source_pass": "data/passes/operator-learning-bridge.json"
+    },
+    {
+      "id": "genealogy.information_flow",
+      "repo": "InformationFlow",
+      "url": "https://github.com/anttiluode/InformationFlow",
+      "kind": "mechanism",
+      "confidence": "high",
+      "reusable_object": "WHERE / WHICH / SIGN coherent addressing: space, carrier frequency and relative phase select a persistent routing write.",
+      "survived": "Matched spatial/frequency pairs write a much stronger slow route than controls, and phase can suppress or reverse the write.",
+      "boundary": "The coherent coupling is explicitly supplied; it is not evidence that unmodified Navier-Stokes discovers the addressing scheme.",
+      "tags": ["field", "frequency", "phase", "addressing", "persistent-routing", "where", "which", "sign"],
+      "source_pass": "data/passes/field-computing.json"
+    },
+    {
+      "id": "genealogy.stored_medium_operator",
+      "repo": "SelectCarryBindWriteAskSelect",
+      "url": "https://github.com/anttiluode/SelectCarryBindWriteAskSelect",
+      "kind": "mechanism",
+      "confidence": "high",
+      "reusable_object": "The stored slow medium directly becomes part of the later operator instead of being decoded into a separate label first.",
+      "survived": "A persistent distributed field can alter a later cue trajectory under bounded readout.",
+      "boundary": "It is a proof-of-mechanism for a synthetic field, not evidence of autonomous fluid learning or biological implementation.",
+      "tags": ["field", "persistent-state", "operator", "stored-medium", "later-probe", "bounded-readout"],
+      "source_pass": "data/passes/field-memory-continuation.json"
+    },
+    {
+      "id": "genealogy.artificial_cortex",
+      "repo": "ArtificialCortex",
+      "url": "https://github.com/anttiluode/ArtificialCortex",
+      "kind": "world",
+      "confidence": "high",
+      "reusable_object": "Resident computational matter with explicit space, frequency, phase and slow-fast coordinates.",
+      "survived": "Wave/interference structure can serve as computational state and slow state can gate faster dynamics.",
+      "boundary": "The spatial and spectral organization is supplied synthetically and does not establish a biological cortex or an advantage over standard learned systems.",
+      "tags": ["world", "field", "oscillation", "frequency", "phase", "slow-fast", "computational-matter"],
+      "source_pass": "data/passes/mycelial-artificial-cortex-lineage.json"
+    },
+    {
+      "id": "genealogy.gax",
+      "repo": "GAx",
+      "url": "https://github.com/anttiluode/GAx",
+      "kind": "mechanism",
+      "confidence": "high",
+      "reusable_object": "Computational modes are coherent mechanism families whose relative gain changes under a context-dependent operator.",
+      "survived": "The normalized finite-state GA lifts exactly to positive linear operator dynamics; distinct counterfactual strategy families can be preserved and selected by context.",
+      "boundary": "Preserving modes is not the same as automatically discovering a useful router, and averaging mechanisms can create a third computation rather than retain both originals.",
+      "tags": ["modal", "operator", "context", "routing", "computational-mode", "krylov", "counterfactual"],
+      "source_pass": "GAx README / Genealogy convergence edge"
+    },
+    {
+      "id": "genealogy.third_way",
+      "repo": "ThirdWay",
+      "url": "https://github.com/anttiluode/ThirdWay",
+      "kind": "mechanism",
+      "confidence": "high",
+      "reusable_object": "Computational identity is continuation through moving coordinates; delayed credit should be transported with that identity.",
+      "survived": "Continuation tracking and covariantly transported credit outperform stale-coordinate alternatives in the controlled moving-basis tasks; dynamic susceptibility can predict retained-skill damage better than tested static similarities.",
+      "boundary": "Fine tangent time ordering was not necessary in the persistent-edit gate; the stronger temporal-order claim failed.",
+      "tags": ["basis", "identity", "continuation", "credit", "transport", "compatibility", "causal"],
+      "source_pass": "ThirdWay README / Genealogy convergence edge"
+    },
+    {
+      "id": "genealogy.anttis_neuron",
+      "repo": "AnttisNeuron",
+      "url": "https://github.com/anttiluode/AnttisNeuron",
+      "kind": "mechanism",
+      "confidence": "medium",
+      "reusable_object": "Physical/operator basis reorientation as a distinct adaptive degree of freedom.",
+      "survived": "Genealogy records the strongest synthetic adaptive result as depending more on basis reorientation than simple eigenvalue/time-scale change.",
+      "boundary": "This is a synthetic mechanism result, not a claim that biological neurons optimize the same coordinate system.",
+      "tags": ["basis", "reorientation", "operator", "adaptation", "physical-coordinates"],
+      "source_pass": "data/passes/frequency-addressed-operator-composition.json"
+    },
+    {
+      "id": "genealogy.operaattori",
+      "repo": "Operaattori",
+      "url": "https://github.com/anttiluode/Operaattori",
+      "kind": "compiler",
+      "confidence": "high",
+      "reusable_object": "Compile detailed morphology into a reusable transport operator plus a local nonlinear operator, with explicit causal decompositions and attackers.",
+      "survived": "The direct morphology graph reconstructs matched passive operators across the released morphology panel, and transport/local-nonlinear factorization reuses across held-out geometry and input-pattern changes.",
+      "boundary": "Pure 3-D re-embedding leaves the intrinsic cable operator unchanged; obvious scalar morphology features are too weak for arbitrary cross-cell operator prediction.",
+      "tags": ["compiler", "structure", "geometry", "morphology", "operator", "transport", "nonlinearity", "factorization"],
+      "source_pass": "Operaattori README / Genealogy convergence edge"
+    }
+  ]
+}

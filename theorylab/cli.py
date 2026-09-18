@@ -6,6 +6,7 @@ from pathlib import Path
 
 from .catalog import load_catalog, load_json, load_manifest
 from .engine import run_theory_file
+from .propose import propose
 from .replay import replay_history
 from .validate import validate_repository, validate_theory
 
@@ -41,6 +42,12 @@ def cmd_list(args) -> int:
     for path in manifest["entrypoints"]["theories"]:
         theory = load_json(path)
         print(f"  {theory['id']:<28} {theory['question']}")
+    knowledge_path = manifest["entrypoints"].get("genealogy_components")
+    if knowledge_path:
+        knowledge = load_json(knowledge_path)
+        print("GENEALOGY COMPONENTS")
+        for item in knowledge.get("components", []):
+            print(f"  {item['id']:<45} {item['kind']:<14} {item['reusable_object']}")
     return 0
 
 
@@ -59,6 +66,28 @@ def cmd_replay(args) -> int:
     return 0
 
 
+def cmd_propose(args) -> int:
+    result = propose(args.question, top_components=args.top_components, top_constraints=args.top_constraints)
+    if args.output:
+        Path(args.output).write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if args.json:
+        _dump(result, True)
+    else:
+        print(f"FAMILY: {result['family']}")
+        print(f"HYPOTHESIS: {result['hypothesis']}")
+        print("COMPONENTS:")
+        for item in result["selected_components"]:
+            print(f"  {item['score']:>5.2f}  {item['repo']}  [{item['kind']}]")
+        print("ATTACKERS / CONSTRAINTS:")
+        for item in result["selected_constraints"]:
+            print(f"  {item['score']:>5.2f}  {item['id']}")
+        print("EXPERIMENT:")
+        print(f"  {result['experiment']}")
+        print("EXECUTION:")
+        print(f"  {result['execution']['status']} — missing: {', '.join(result['execution']['missing_executors'])}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="theorylab")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -67,7 +96,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("path", nargs="?")
     p.set_defaults(func=cmd_validate)
 
-    p = sub.add_parser("list", help="list node catalog and theories")
+    p = sub.add_parser("list", help="list node catalog, theories and imported genealogy components")
     p.set_defaults(func=cmd_list)
 
     p = sub.add_parser("run", help="execute a theory graph")
@@ -82,6 +111,14 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--budget", type=int, default=6)
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_replay)
+
+    p = sub.add_parser("propose", help="ground a candidate theory graph in imported mechanisms and known attackers")
+    p.add_argument("question")
+    p.add_argument("--top-components", type=int, default=6)
+    p.add_argument("--top-constraints", type=int, default=4)
+    p.add_argument("--output")
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(func=cmd_propose)
     return parser
 
 

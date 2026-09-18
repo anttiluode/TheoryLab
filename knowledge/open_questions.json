@@ -1,0 +1,45 @@
+{
+  "format": "theorylab-open-questions/v1",
+  "questions": [
+    {
+      "id": "question.learned_basis_alignment",
+      "state": "open",
+      "question": "Can useful computational coordinates and persistent-write coordinates self-align through experience rather than being supplied?",
+      "origin": "derived-from-current-genealogy-boundary",
+      "source": "FrequencyAddressedState-dependentOperatorComposition v4",
+      "discriminator": "Compare oracle modal coordinates, fixed random coordinates, locally learned coordinates and task-trained coordinates under the same fast dynamics and state budget."
+    },
+    {
+      "id": "question.active_intervention_cost_density",
+      "state": "open",
+      "question": "When does active intervention still pay after probe cost and dense hidden causes?",
+      "origin": "Genealogy data/questions.json",
+      "source": "active-intervention-cost-density",
+      "discriminator": "Matched-budget sweep over intervention cost and hidden-cause density with adaptive, random and passive policies."
+    },
+    {
+      "id": "question.structure_function",
+      "state": "open",
+      "question": "When does fine structural organization predict a downstream functional consequence beyond coarse summaries?",
+      "origin": "Genealogy data/questions.json",
+      "source": "structure-functional-consequence",
+      "discriminator": "Paired structures matched on coarse graph/spectral statistics but differing in fine placement/geometry, followed by held-out response tests."
+    },
+    {
+      "id": "question.bounded_observation",
+      "state": "partially-resolved",
+      "question": "What survives from bounded observation: active addressing or a particular structured measurement family?",
+      "origin": "Genealogy data/questions.json",
+      "source": "bounded-observation-address-vs-grid",
+      "discriminator": "Factor adaptive versus fixed selection against structured versus unstructured probe families at matched count, support and noise."
+    },
+    {
+      "id": "question.late_relevance",
+      "state": "partially-resolved",
+      "question": "Is late relevance an architectural advantage once training fit is equalized?",
+      "origin": "Genealogy data/questions.json",
+      "source": "late-relevance-training-confound",
+      "discriminator": "Match training error before dormant/switch evaluation."
+    }
+  ]
+}

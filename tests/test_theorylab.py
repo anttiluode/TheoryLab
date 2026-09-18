@@ -1,9 +1,9 @@
-import json
 import unittest
 from pathlib import Path
 
 from theorylab.catalog import load_json
 from theorylab.engine import run_theory
+from theorylab.propose import propose
 from theorylab.replay import replay_history
 from theorylab.validate import validate_repository, validate_theory
 
@@ -46,6 +46,39 @@ class TheoryLabTests(unittest.TestCase):
             result = replay_history(history, policy, budget=3)
             self.assertEqual(result["policy"], policy)
             self.assertEqual(len(result["visited"]), 3)
+
+    def test_curated_genealogy_slice_is_small_and_explicit(self):
+        knowledge = load_json(ROOT / "knowledge/genealogy_components.json")
+        self.assertEqual(len(knowledge["components"]), 15)
+        for item in knowledge["components"]:
+            self.assertIn("reusable_object", item)
+            self.assertIn("boundary", item)
+            self.assertIn("source_pass", item)
+
+    def test_basis_question_builds_grounded_proposal(self):
+        result = propose(
+            "Can useful computational coordinates and persistent write self-align through experience rather than being supplied?"
+        )
+        self.assertEqual(result["family"], "basis_alignment")
+        repos = {item["repo"] for item in result["selected_components"]}
+        self.assertIn("FrequencyAddressedState-dependentOperatorComposition", repos)
+        self.assertIn("ThirdWay", repos)
+        constraints = {item["id"] for item in result["selected_constraints"]}
+        self.assertIn("constraint.learnability_open", constraints)
+        self.assertFalse(result["execution"]["executable_now"])
+        self.assertGreater(len(result["execution"]["missing_executors"]), 0)
+
+    def test_active_identification_question_pulls_boring_controls(self):
+        result = propose(
+            "When does active intervention identify a hidden mechanism better after probe cost and dense causes?"
+        )
+        self.assertEqual(result["family"], "active_identification")
+        repos = {item["repo"] for item in result["selected_components"]}
+        self.assertIn("EvoX", repos)
+        constraint_ids = {item["id"] for item in result["selected_constraints"]}
+        self.assertTrue(
+            {"constraint.active_needs_boring_controls", "constraint.probe_cost_counts"} & constraint_ids
+        )
 
 
 if __name__ == "__main__":

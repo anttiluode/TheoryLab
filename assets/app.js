@@ -1,6 +1,6 @@
 'use strict';
 
-const state = {manifest:null,nodes:[],theory:null,receipt:null,history:null};
+const state = {manifest:null,nodes:[],theory:null,receipt:null,history:null,components:[],constraints:[],questions:[]};
 const $ = (q,root=document)=>root.querySelector(q);
 const $$ = (q,root=document)=>[...root.querySelectorAll(q)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -50,6 +50,17 @@ function renderNodes(filter=''){
   $('#node-library').innerHTML=nodes.map(n=>`<article class="library-card"><span class="role">${esc(n.role)}</span><h3>${esc(n.id)}</h3><p>${esc(n.summary)}</p><div class="tags">${(n.tags||[]).join(' · ')}</div></article>`).join('');
 }
 
+
+function renderKnowledge(filter=''){
+  const q=filter.trim().toLowerCase();
+  const items=state.components.filter(c=>!q||[c.repo,c.kind,c.reusable_object,c.boundary,...(c.tags||[])].join(' ').toLowerCase().includes(q));
+  $('#knowledge-count').textContent=items.length+' / '+state.components.length;
+  $('#knowledge-library').innerHTML=items.map(c=>`<article class="library-card"><span class="role">${esc(c.kind)}</span><h3>${esc(c.repo)}</h3><p><b>Reusable:</b> ${esc(c.reusable_object)}</p><p><b>Boundary:</b> ${esc(c.boundary)}</p><div class="tags">${(c.tags||[]).join(' · ')}</div></article>`).join('');
+}
+function renderQuestions(){
+  $('#open-questions').innerHTML=state.questions.map(q=>`<article class="experiment-card"><div class="eyebrow">${esc(q.state)}</div><h3>${esc(q.question)}</h3><p>${esc(q.discriminator)}</p></article>`).join('');
+}
+
 function renderReceipt(){
   const r=state.receipt;$('#receipt-status').textContent=r.status.toUpperCase();
   $('#measurements').innerHTML=Object.entries(r.measurements).map(([k,v])=>`<div class="measurement"><span>${esc(k)}</span><b>${typeof v==='number'?v.toFixed(6):esc(JSON.stringify(v))}</b></div>`).join('');
@@ -66,10 +77,10 @@ function renderReplayResult(){const p=$('#policy').value,b=Number($('#budget').v
 async function init(){
   tabSetup();
   try{
-    state.manifest=await json('theorylab.json');state.nodes=await json(state.manifest.entrypoints.node_catalog);state.theory=await json(state.manifest.entrypoints.theories[0]);state.receipt=await json(state.manifest.entrypoints.receipts[0]);state.history=await json(state.manifest.entrypoints.discovery_history);
-    $('#stat-nodes').textContent=state.nodes.length;$('#stat-theories').textContent=state.manifest.entrypoints.theories.length;$('#stat-gates').textContent=state.theory.gates.length;$('#stat-attempts').textContent=state.history.attempts.length;$('#runtime-status').textContent='contracts loaded';
-    renderWorkbench();renderNodes();renderReceipt();renderHistory();$('#manifest-preview').textContent=JSON.stringify(state.manifest,null,2);renderReplayResult();
-    $('#node-search').addEventListener('input',e=>renderNodes(e.target.value));$('#budget').addEventListener('input',e=>{$('#budget-out').textContent=e.target.value;renderReplayResult();});$('#policy').addEventListener('change',renderReplayResult);$('#run-replay').addEventListener('click',renderReplayResult);
+    state.manifest=await json('theorylab.json');state.nodes=await json(state.manifest.entrypoints.node_catalog);state.theory=await json(state.manifest.entrypoints.theories[0]);state.receipt=await json(state.manifest.entrypoints.receipts[0]);state.history=await json(state.manifest.entrypoints.discovery_history);const kd=await json(state.manifest.entrypoints.genealogy_components);const cd=await json(state.manifest.entrypoints.constraints);const qd=await json(state.manifest.entrypoints.open_questions);state.components=kd.components;state.constraints=cd.constraints;state.questions=qd.questions;
+    $('#stat-nodes').textContent=state.nodes.length;$('#stat-theories').textContent=state.manifest.entrypoints.theories.length;$('#stat-components').textContent=state.components.length;$('#stat-gates').textContent=state.theory.gates.length;$('#stat-attempts').textContent=state.history.attempts.length;$('#runtime-status').textContent='contracts + knowledge loaded';
+    renderWorkbench();renderNodes();renderReceipt();renderHistory();renderKnowledge();renderQuestions();$('#manifest-preview').textContent=JSON.stringify(state.manifest,null,2);renderReplayResult();
+    $('#node-search').addEventListener('input',e=>renderNodes(e.target.value));$('#knowledge-search').addEventListener('input',e=>renderKnowledge(e.target.value));$('#budget').addEventListener('input',e=>{$('#budget-out').textContent=e.target.value;renderReplayResult();});$('#policy').addEventListener('change',renderReplayResult);$('#run-replay').addEventListener('click',renderReplayResult);
   }catch(err){$('#runtime-status').textContent='load failed';console.error(err);}
 }
 init();

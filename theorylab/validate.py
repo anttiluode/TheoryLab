@@ -45,6 +45,43 @@ def validate_catalog(catalog: list[dict[str, Any]]) -> list[str]:
     return errors
 
 
+def _validate_unique_records(records: list[dict[str, Any]], label: str, required: tuple[str, ...]) -> list[str]:
+    errors: list[str] = []
+    seen: set[str] = set()
+    for item in records:
+        item_id = item.get("id")
+        if not item_id:
+            errors.append(f"{label} missing id")
+            continue
+        if item_id in seen:
+            errors.append(f"duplicate {label} id: {item_id}")
+        seen.add(item_id)
+        for key in required:
+            if key not in item or item[key] in (None, "", []):
+                errors.append(f"{item_id}: missing {key}")
+    return errors
+
+
+def validate_knowledge(components: dict[str, Any], constraints: dict[str, Any], questions: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    errors.extend(_validate_unique_records(
+        components.get("components", []),
+        "genealogy component",
+        ("repo", "kind", "reusable_object", "boundary", "tags", "source_pass"),
+    ))
+    errors.extend(_validate_unique_records(
+        constraints.get("constraints", []),
+        "constraint",
+        ("kind", "statement", "tags", "source"),
+    ))
+    errors.extend(_validate_unique_records(
+        questions.get("questions", []),
+        "open question",
+        ("state", "question", "origin", "source", "discriminator"),
+    ))
+    return errors
+
+
 def validate_theory(theory: dict[str, Any], catalog: list[dict[str, Any]] | None = None) -> list[str]:
     catalog = catalog or load_catalog()
     nodes = {node["id"]: node for node in catalog}
@@ -161,4 +198,11 @@ def validate_repository(root: str | Path | None = None) -> list[str]:
     for path in manifest["entrypoints"].get("theories", []):
         theory = load_json(root / path)
         errors.extend(f"{path}: {msg}" for msg in validate_theory(theory, catalog))
+
+    entries = manifest["entrypoints"]
+    if all(key in entries for key in ("genealogy_components", "constraints", "open_questions")):
+        components = load_json(root / entries["genealogy_components"])
+        constraints = load_json(root / entries["constraints"])
+        questions = load_json(root / entries["open_questions"])
+        errors.extend(validate_knowledge(components, constraints, questions))
     return errors
