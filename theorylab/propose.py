@@ -78,7 +78,8 @@ FAMILY_TEMPLATES: dict[str, dict[str, Any]] = {
             "the learned-basis effect survives a task or composition readout rather than only a basis-similarity metric",
             "the result is below or comparable to the oracle in a way consistent with partial discovery rather than hidden extra capacity"
         ],
-        "missing_executors": ["coordinate learner", "matched recurrent world", "operator-family metrics"]
+        "missing_executors": [],
+        "theory_path": "theories/learned_basis_alignment.json"
     },
     "active_identification": {
         "hypothesis": "Active intervention is useful only where information gained per paid probe exceeds matched passive, random, balanced and fixed-cover alternatives.",
@@ -332,6 +333,23 @@ def propose(question: str, *, top_components: int = 6, top_constraints: int = 4)
         "nodes": [{"id": node_id, "role": role} for node_id, role in template["graph"]],
         "edges": [{"from": a, "to": b, "meaning": meaning} for a, b, meaning in template["edges"]],
     }
+    missing = list(template.get("missing_executors", []))
+    theory_path = template.get("theory_path")
+    executable_now = bool(theory_path) and not missing
+    execution = {
+        "status": "ready" if executable_now else "plan-only",
+        "executable_now": executable_now,
+        "missing_executors": missing,
+        "note": (
+            "All declared executors for this proposal family are now available; validate and run the promoted theory before treating it as evidence."
+            if executable_now
+            else "A proposal is not evidence. It becomes evidence only after adapters exist, the graph validates, and the declared experiment is actually run."
+        ),
+    }
+    if theory_path:
+        execution["theory_path"] = theory_path
+        execution["run_command"] = f"python -m theorylab run {theory_path} --json"
+
     return {
         "format": "theorylab-proposal/v1",
         "question": question,
@@ -343,12 +361,7 @@ def propose(question: str, *, top_components: int = 6, top_constraints: int = 4)
         "experiment": template["experiment"],
         "attackers": template["attackers"],
         "predeclared_gates": template["gates"],
-        "execution": {
-            "status": "plan-only",
-            "executable_now": False,
-            "missing_executors": template["missing_executors"],
-            "note": "A proposal is not evidence. It becomes evidence only after adapters exist, the graph validates, and the declared experiment is actually run."
-        },
+        "execution": execution,
         "grounding": {
             "component_source": "knowledge/genealogy_components.json",
             "constraint_source": "knowledge/constraints.json",

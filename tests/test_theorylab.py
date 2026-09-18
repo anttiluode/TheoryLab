@@ -65,8 +65,25 @@ class TheoryLabTests(unittest.TestCase):
         self.assertIn("ThirdWay", repos)
         constraints = {item["id"] for item in result["selected_constraints"]}
         self.assertIn("constraint.learnability_open", constraints)
-        self.assertFalse(result["execution"]["executable_now"])
-        self.assertGreater(len(result["execution"]["missing_executors"]), 0)
+        self.assertTrue(result["execution"]["executable_now"])
+        self.assertEqual(result["execution"]["missing_executors"], [])
+        self.assertEqual(result["execution"]["theory_path"], "theories/learned_basis_alignment.json")
+
+    def test_promoted_basis_theory_runs_the_predeclared_panel(self):
+        theory = load_json(ROOT / "theories/learned_basis_alignment.json")
+        receipt = run_theory(theory)
+        self.assertEqual(receipt["status"], "pass")
+        m = receipt["measurements"]
+        self.assertGreater(
+            m["matched_basis_panel.learned_operator_rank_min"],
+            m["matched_basis_panel.random_operator_rank_max"],
+        )
+        self.assertGreater(
+            m["matched_basis_panel.learned_composition_min"],
+            m["matched_basis_panel.random_composition_max"],
+        )
+        self.assertGreater(m["matched_basis_panel.learned_alignment_min"], 0.95)
+        self.assertEqual(m["matched_basis_panel.frozen_composition_median"], 0.0)
 
     def test_active_identification_question_pulls_boring_controls(self):
         result = propose(

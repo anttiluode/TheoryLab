@@ -4,39 +4,108 @@
     "version": "0.1.0",
     "role": "source",
     "summary": "Injects a literal or protocol-supplied value into a theory graph.",
-    "inputs": {"value": {"type": "any", "required": false}},
-    "outputs": {"value": {"type": "any"}},
-    "parameters": {"defaults": {"value": null}},
+    "inputs": {
+      "value": {
+        "type": "any",
+        "required": false
+      }
+    },
+    "outputs": {
+      "value": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "value": null
+      }
+    },
     "executor": "source.input",
-    "claims": ["Provides an explicit external input boundary; it does not transform the supplied value."],
-    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
-    "tags": ["source", "boundary"]
+    "claims": [
+      "Provides an explicit external input boundary; it does not transform the supplied value."
+    ],
+    "provenance": {
+      "kind": "TheoryLab primitive",
+      "source": "TheoryLab v0"
+    },
+    "tags": [
+      "source",
+      "boundary"
+    ]
   },
   {
     "id": "transform.linear",
     "version": "0.1.0",
     "role": "transform",
     "summary": "Applies a declared dense linear operator to a vector.",
-    "inputs": {"vector": {"type": "vector"}},
-    "outputs": {"vector": {"type": "vector"}},
-    "parameters": {"defaults": {"matrix": [[1.0]]}},
+    "inputs": {
+      "vector": {
+        "type": "vector"
+      }
+    },
+    "outputs": {
+      "vector": {
+        "type": "vector"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "matrix": [
+          [
+            1
+          ]
+        ]
+      }
+    },
     "executor": "transform.linear",
-    "claims": ["Implements y = A x for a declared matrix A."],
-    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
-    "tags": ["linear", "operator"]
+    "claims": [
+      "Implements y = A x for a declared matrix A."
+    ],
+    "provenance": {
+      "kind": "TheoryLab primitive",
+      "source": "TheoryLab v0"
+    },
+    "tags": [
+      "linear",
+      "operator"
+    ]
   },
   {
     "id": "transform.basis",
     "version": "0.1.0",
     "role": "transform",
     "summary": "Projects a vector into declared basis coordinates Q^T x.",
-    "inputs": {"vector": {"type": "vector"}},
-    "outputs": {"vector": {"type": "vector"}},
-    "parameters": {"defaults": {"basis": [[1.0]]}},
+    "inputs": {
+      "vector": {
+        "type": "vector"
+      }
+    },
+    "outputs": {
+      "vector": {
+        "type": "vector"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "basis": [
+          [
+            1
+          ]
+        ]
+      }
+    },
     "executor": "transform.basis",
-    "claims": ["Makes coordinate choice explicit so basis-aligned and arbitrary-coordinate mechanisms can be compared."],
-    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
-    "tags": ["basis", "coordinates"]
+    "claims": [
+      "Makes coordinate choice explicit so basis-aligned and arbitrary-coordinate mechanisms can be compared."
+    ],
+    "provenance": {
+      "kind": "TheoryLab primitive",
+      "source": "TheoryLab v0"
+    },
+    "tags": [
+      "basis",
+      "coordinates"
+    ]
   },
   {
     "id": "state.rank1_operator_write",
@@ -44,14 +113,31 @@
     "role": "mechanism",
     "summary": "Persistent matrix state updated by addressed rank-1 writes; later probes are transformed by the accumulated operator.",
     "inputs": {
-      "write": {"type": "vector", "required": false},
-      "probe": {"type": "vector", "required": false}
+      "write": {
+        "type": "vector",
+        "required": false
+      },
+      "probe": {
+        "type": "vector",
+        "required": false
+      }
     },
     "outputs": {
-      "operator": {"type": "matrix"},
-      "response": {"type": "vector", "optional": true}
+      "operator": {
+        "type": "matrix"
+      },
+      "response": {
+        "type": "vector",
+        "optional": true
+      }
     },
-    "parameters": {"defaults": {"dim": 2, "eta": 0.35, "frozen": false}},
+    "parameters": {
+      "defaults": {
+        "dim": 2,
+        "eta": 0.35,
+        "frozen": false
+      }
+    },
     "executor": "state.rank1_operator_write",
     "claims": [
       "Provides a deterministic calibration mechanism in which two addressed persistent writes can compose noncommutatively.",
@@ -61,32 +147,288 @@
       "kind": "TheoryLab calibration primitive",
       "source": "Inspired by the operator-composition abstraction; not a biological model"
     },
-    "tags": ["persistent-state", "operator-write", "noncommutativity", "calibration"]
+    "tags": [
+      "persistent-state",
+      "operator-write",
+      "noncommutativity",
+      "calibration"
+    ]
   },
   {
     "id": "observer.l2",
     "version": "0.1.0",
     "role": "observer",
     "summary": "Reports Euclidean/Frobenius norm of a scalar, vector, or matrix.",
-    "inputs": {"value": {"type": "any"}},
-    "outputs": {"value": {"type": "scalar"}},
-    "parameters": {"defaults": {}},
+    "inputs": {
+      "value": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "value": {
+        "type": "scalar"
+      }
+    },
+    "parameters": {
+      "defaults": {}
+    },
     "executor": "observer.l2",
-    "claims": ["Provides a bounded scalar measurement without changing the upstream state."],
-    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
-    "tags": ["observer", "measurement"]
+    "claims": [
+      "Provides a bounded scalar measurement without changing the upstream state."
+    ],
+    "provenance": {
+      "kind": "TheoryLab primitive",
+      "source": "TheoryLab v0"
+    },
+    "tags": [
+      "observer",
+      "measurement"
+    ]
   },
   {
     "id": "evaluator.difference",
     "version": "0.1.0",
     "role": "evaluator",
     "summary": "Computes L2/Frobenius magnitude of the difference between two compatible values.",
-    "inputs": {"a": {"type": "any"}, "b": {"type": "any"}},
-    "outputs": {"value": {"type": "scalar"}, "delta": {"type": "any"}},
-    "parameters": {"defaults": {}},
+    "inputs": {
+      "a": {
+        "type": "any"
+      },
+      "b": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "value": {
+        "type": "scalar"
+      },
+      "delta": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {}
+    },
     "executor": "evaluator.difference",
-    "claims": ["Turns a paired difference into an explicit scalar diagnostic."],
-    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
-    "tags": ["evaluator", "paired-control"]
+    "claims": [
+      "Turns a paired difference into an explicit scalar diagnostic."
+    ],
+    "provenance": {
+      "kind": "TheoryLab primitive",
+      "source": "TheoryLab v0"
+    },
+    "tags": [
+      "evaluator",
+      "paired-control"
+    ]
+  },
+  {
+    "id": "world.matched_recurrent_modes",
+    "version": "0.2.0",
+    "role": "world",
+    "summary": "Builds an 8-world matched dense recurrent panel with hidden Hadamard-like modal coordinates and passive covariance observations.",
+    "inputs": {},
+    "outputs": {
+      "world": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "dim": 4,
+        "panel_size": 8,
+        "steps": 4500,
+        "burn_in": 500,
+        "noise_std": 0.3,
+        "seed": 100,
+        "covariance_seed": 200,
+        "eigenvalues": [
+          0.94,
+          0.79,
+          0.54,
+          0.28
+        ]
+      }
+    },
+    "executor": "world.matched_recurrent_modes",
+    "claims": [
+      "Provides the same fixed recurrent substrate family to learned, visible, random and oracle coordinate strategies.",
+      "Visible coordinates are deliberately maximally mixed in address energy, making this a known hard-attacker calibration rather than a generic RNN sample."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v2 generated-theory adapter",
+      "source": "FrequencyAddressedState-dependentOperatorComposition v4 boundary + TheoryLab basis_alignment proposal"
+    },
+    "tags": [
+      "world",
+      "recurrent",
+      "modal",
+      "basis",
+      "matched-control",
+      "synthetic"
+    ]
+  },
+  {
+    "id": "learner.coordinate_basis",
+    "version": "0.2.0",
+    "role": "learner",
+    "summary": "Learns a coordinate basis from passive trajectory covariance using deterministic power iteration.",
+    "inputs": {
+      "world": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "basis_set": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "strategy": "pca_covariance",
+        "iterations": 120,
+        "random_seed_offset": 10000
+      }
+    },
+    "executor": "learner.coordinate_basis",
+    "claims": [
+      "The pca_covariance strategy reads only the covariance sufficient statistic, not the oracle basis or fast matrix.",
+      "It tests whether an ordinary global covariance learner can discover useful resident coordinates in the constructed matched world family."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v2 generated-theory adapter",
+      "source": "TheoryLab basis_alignment proposal; Oja/PCA lineage is motivation, not yet the local-learning implementation"
+    },
+    "tags": [
+      "learner",
+      "basis",
+      "pca",
+      "covariance",
+      "modal",
+      "alignment"
+    ]
+  },
+  {
+    "id": "attacker.coordinate_basis",
+    "version": "0.2.0",
+    "role": "attacker",
+    "summary": "Matched coordinate controls using visible, fixed-random or oracle modal bases on the same recurrent worlds.",
+    "inputs": {
+      "world": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "basis_set": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "strategy": "visible",
+        "iterations": 120,
+        "random_seed_offset": 10000
+      }
+    },
+    "executor": "learner.coordinate_basis",
+    "claims": [
+      "Provides same-fast-matrix coordinate attackers without changing dimensionality, state budget or write law.",
+      "The oracle strategy is a positive upper control; visible and random strategies are destructive/matched alternatives."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v2 attacker adapter",
+      "source": "FrequencyAddressedState-dependentOperatorComposition v4"
+    },
+    "tags": [
+      "attacker",
+      "basis",
+      "visible",
+      "random",
+      "oracle",
+      "same-fast-matrix"
+    ]
+  },
+  {
+    "id": "observer.operator_family_metrics",
+    "version": "0.2.0",
+    "role": "observer",
+    "summary": "Measures basis alignment, addressed energy rank, written-operator family rank, write selectivity and normalized noncommuting composition over a matched world panel.",
+    "inputs": {
+      "world": {
+        "type": "any"
+      },
+      "basis_set": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "basis_alignment_median": {
+        "type": "scalar"
+      },
+      "basis_alignment_min": {
+        "type": "scalar"
+      },
+      "basis_alignment_max": {
+        "type": "scalar"
+      },
+      "address_rank_median": {
+        "type": "scalar"
+      },
+      "address_rank_min": {
+        "type": "scalar"
+      },
+      "address_rank_max": {
+        "type": "scalar"
+      },
+      "operator_rank_median": {
+        "type": "scalar"
+      },
+      "operator_rank_min": {
+        "type": "scalar"
+      },
+      "operator_rank_max": {
+        "type": "scalar"
+      },
+      "composition_score_median": {
+        "type": "scalar"
+      },
+      "composition_score_min": {
+        "type": "scalar"
+      },
+      "composition_score_max": {
+        "type": "scalar"
+      },
+      "write_selectivity_median": {
+        "type": "scalar"
+      },
+      "write_selectivity_min": {
+        "type": "scalar"
+      },
+      "write_selectivity_max": {
+        "type": "scalar"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "write_gain": 0.6
+      }
+    },
+    "executor": "observer.operator_family_metrics",
+    "claims": [
+      "Operator-family effective rank is computed from the actually written operator deltas, not directly from basis similarity.",
+      "Composition score measures the normalized Frobenius separation of A→B versus B→A operator action over a canonical probe bank."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v2 metric adapter",
+      "source": "FrequencyAddressedState-dependentOperatorComposition v4 diagnostics"
+    },
+    "tags": [
+      "observer",
+      "operator-rank",
+      "address-rank",
+      "composition",
+      "basis-alignment",
+      "panel"
+    ]
   }
 ]

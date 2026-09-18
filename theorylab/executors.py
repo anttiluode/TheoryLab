@@ -4,6 +4,8 @@ import math
 from copy import deepcopy
 from typing import Any, Callable
 
+from .basis_alignment import learn_basis, make_world_panel, operator_family_metrics
+
 
 def _as_vector(value: Any) -> list[float]:
     if isinstance(value, (int, float)):
@@ -97,6 +99,18 @@ def state_rank1_operator_write(inputs: dict[str, Any], params: dict[str, Any], s
     return outputs
 
 
+def world_matched_recurrent_modes(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    return {"world": make_world_panel(params)}
+
+
+def learner_coordinate_basis(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    return {"basis_set": learn_basis(inputs["world"], params)}
+
+
+def observer_operator_family_metrics(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    return operator_family_metrics(inputs["world"], inputs["basis_set"], params)
+
+
 def observer_l2(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
     return {"value": _l2(inputs["value"])}
 
@@ -111,6 +125,9 @@ EXECUTORS: dict[str, Callable[[dict[str, Any], dict[str, Any], dict[str, Any]], 
     "transform.linear": transform_linear,
     "transform.basis": transform_basis,
     "state.rank1_operator_write": state_rank1_operator_write,
+    "world.matched_recurrent_modes": world_matched_recurrent_modes,
+    "learner.coordinate_basis": learner_coordinate_basis,
+    "observer.operator_family_metrics": observer_operator_family_metrics,
     "observer.l2": observer_l2,
     "evaluator.difference": evaluator_difference,
 }
