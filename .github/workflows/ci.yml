@@ -22,3 +22,5 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Execute seed theory
         run: python -m theorylab run theories/noncommuting_write.json --json
+      - name: Generate grounded proposal
+        run: python -m theorylab propose "Can useful computational coordinates and persistent write self-align through experience?" --json
