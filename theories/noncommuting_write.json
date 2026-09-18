@@ -1,0 +1,278 @@
+{
+  "$schema": "../schemas/theory.schema.json",
+  "format": "theorylab-theory/v0",
+  "id": "noncommuting-write-calibration",
+  "title": "Persistent writes can change the operator seen by a later probe",
+  "question": "Can two addressed persistent writes leave different later operators when their order is reversed, and does a frozen-write attacker remove that difference?",
+  "hypothesis": "If each addressed event writes the resident operator itself, A then B and B then A can produce different later probe responses even though the same two writes were delivered.",
+  "assumptions": [
+    "The rank-1 writer is a synthetic calibration mechanism, not a claim about a biological substrate.",
+    "Each experiment begins from identical identity-operator state.",
+    "The two write vectors and the final probe are deterministic and declared below."
+  ],
+  "nodes": [
+    {
+      "id": "write_input",
+      "node": "source.input"
+    },
+    {
+      "id": "probe_input",
+      "node": "source.input"
+    },
+    {
+      "id": "memory",
+      "node": "state.rank1_operator_write",
+      "parameters": {
+        "dim": 2,
+        "eta": 0.35,
+        "frozen": false
+      }
+    },
+    {
+      "id": "frozen_memory",
+      "node": "state.rank1_operator_write",
+      "parameters": {
+        "dim": 2,
+        "eta": 0.35,
+        "frozen": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "write_input.value",
+      "to": "memory.write"
+    },
+    {
+      "from": "probe_input.value",
+      "to": "memory.probe"
+    },
+    {
+      "from": "write_input.value",
+      "to": "frozen_memory.write"
+    },
+    {
+      "from": "probe_input.value",
+      "to": "frozen_memory.probe"
+    }
+  ],
+  "experiments": [
+    {
+      "id": "a_then_b",
+      "purpose": "Write A then B and probe the resulting operator.",
+      "protocol": [
+        {
+          "id": "write_a",
+          "inputs": {
+            "write_input.value": [
+              1.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "write_b",
+          "inputs": {
+            "write_input.value": [
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "id": "probe",
+          "inputs": {
+            "probe_input.value": [
+              1.0,
+              0.0
+            ]
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "name": "response_norm",
+          "source": "memory.response",
+          "reduce": "l2"
+        },
+        {
+          "name": "operator_norm",
+          "source": "memory.operator",
+          "reduce": "l2"
+        }
+      ]
+    },
+    {
+      "id": "b_then_a",
+      "purpose": "Reverse only the write order and use the same probe.",
+      "protocol": [
+        {
+          "id": "write_b",
+          "inputs": {
+            "write_input.value": [
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "id": "write_a",
+          "inputs": {
+            "write_input.value": [
+              1.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "probe",
+          "inputs": {
+            "probe_input.value": [
+              1.0,
+              0.0
+            ]
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "name": "response_norm",
+          "source": "memory.response",
+          "reduce": "l2"
+        },
+        {
+          "name": "operator_norm",
+          "source": "memory.operator",
+          "reduce": "l2"
+        }
+      ]
+    },
+    {
+      "id": "frozen_a_then_b",
+      "purpose": "Matched order with persistent operator rewrite disabled.",
+      "protocol": [
+        {
+          "id": "write_a",
+          "inputs": {
+            "write_input.value": [
+              1.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "write_b",
+          "inputs": {
+            "write_input.value": [
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "id": "probe",
+          "inputs": {
+            "probe_input.value": [
+              1.0,
+              0.0
+            ]
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "name": "response_norm",
+          "source": "frozen_memory.response",
+          "reduce": "l2"
+        }
+      ]
+    },
+    {
+      "id": "frozen_b_then_a",
+      "purpose": "Reversed order with persistent operator rewrite disabled.",
+      "protocol": [
+        {
+          "id": "write_b",
+          "inputs": {
+            "write_input.value": [
+              0.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "id": "write_a",
+          "inputs": {
+            "write_input.value": [
+              1.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "probe",
+          "inputs": {
+            "probe_input.value": [
+              1.0,
+              0.0
+            ]
+          }
+        }
+      ],
+      "measurements": [
+        {
+          "name": "response_norm",
+          "source": "frozen_memory.response",
+          "reduce": "l2"
+        }
+      ]
+    }
+  ],
+  "attackers": [
+    {
+      "id": "frozen-write",
+      "kind": "destructive-control",
+      "experiment": "frozen_a_then_b",
+      "claim_attacked": "Order dependence requires persistent operator rewrite rather than protocol bookkeeping alone."
+    }
+  ],
+  "gates": [
+    {
+      "id": "order_changes_response",
+      "lhs": "b_then_a.response_norm",
+      "op": ">",
+      "rhs": "a_then_b.response_norm",
+      "meaning": "Reversing the same two writes changes the later probe response."
+    },
+    {
+      "id": "frozen_control_commutes",
+      "lhs": "frozen_a_then_b.response_norm",
+      "op": "==",
+      "rhs": "frozen_b_then_a.response_norm",
+      "meaning": "When persistent rewrite is disabled, the matched order manipulation has no effect."
+    }
+  ],
+  "interpretation": {
+    "if_pass": [
+      "The TheoryLab runtime can represent a persistent stateful mechanism whose addressed writes compose in an order-dependent way.",
+      "The destructive frozen-write control removes the effect in this calibration world."
+    ],
+    "if_fail": [
+      "The v0 runtime or calibration mechanism does not yet establish the intended stateful operator-composition contract."
+    ],
+    "always_limit": [
+      "This calibration does not establish that dendrites, neural tissue, fluids, or other physical substrates use this mechanism."
+    ]
+  },
+  "limitations": [
+    "The rank-1 update law is deliberately constructed to provide a known-answer noncommutative case.",
+    "The experiment is infrastructure calibration, not evidence for a natural system."
+  ],
+  "provenance": [
+    {
+      "relation": "conceptual-seed",
+      "url": "https://github.com/anttiluode/FrequencyAddressedState-dependentOperatorComposition",
+      "note": "Motivates the distinction between stored label and stored operator; TheoryLab uses a simpler known-answer mechanism for runtime calibration."
+    }
+  ]
+}

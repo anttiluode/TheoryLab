@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://anttiluode.github.io/TheoryLab/schemas/node.schema.json",
+  "title": "TheoryLab Node v0",
+  "type": "object",
+  "required": ["id", "version", "role", "summary", "inputs", "outputs", "parameters", "executor", "claims", "provenance"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "version": {"type": "string"},
+    "role": {"enum": ["mechanism", "world", "source", "intervention", "learner", "observer", "attacker", "evaluator", "transform"]},
+    "summary": {"type": "string"},
+    "inputs": {"type": "object"},
+    "outputs": {"type": "object"},
+    "parameters": {"type": "object"},
+    "executor": {"type": "string"},
+    "claims": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "provenance": {"type": "object"},
+    "tags": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

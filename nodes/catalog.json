@@ -1,0 +1,92 @@
+[
+  {
+    "id": "source.input",
+    "version": "0.1.0",
+    "role": "source",
+    "summary": "Injects a literal or protocol-supplied value into a theory graph.",
+    "inputs": {"value": {"type": "any", "required": false}},
+    "outputs": {"value": {"type": "any"}},
+    "parameters": {"defaults": {"value": null}},
+    "executor": "source.input",
+    "claims": ["Provides an explicit external input boundary; it does not transform the supplied value."],
+    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
+    "tags": ["source", "boundary"]
+  },
+  {
+    "id": "transform.linear",
+    "version": "0.1.0",
+    "role": "transform",
+    "summary": "Applies a declared dense linear operator to a vector.",
+    "inputs": {"vector": {"type": "vector"}},
+    "outputs": {"vector": {"type": "vector"}},
+    "parameters": {"defaults": {"matrix": [[1.0]]}},
+    "executor": "transform.linear",
+    "claims": ["Implements y = A x for a declared matrix A."],
+    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
+    "tags": ["linear", "operator"]
+  },
+  {
+    "id": "transform.basis",
+    "version": "0.1.0",
+    "role": "transform",
+    "summary": "Projects a vector into declared basis coordinates Q^T x.",
+    "inputs": {"vector": {"type": "vector"}},
+    "outputs": {"vector": {"type": "vector"}},
+    "parameters": {"defaults": {"basis": [[1.0]]}},
+    "executor": "transform.basis",
+    "claims": ["Makes coordinate choice explicit so basis-aligned and arbitrary-coordinate mechanisms can be compared."],
+    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
+    "tags": ["basis", "coordinates"]
+  },
+  {
+    "id": "state.rank1_operator_write",
+    "version": "0.1.0",
+    "role": "mechanism",
+    "summary": "Persistent matrix state updated by addressed rank-1 writes; later probes are transformed by the accumulated operator.",
+    "inputs": {
+      "write": {"type": "vector", "required": false},
+      "probe": {"type": "vector", "required": false}
+    },
+    "outputs": {
+      "operator": {"type": "matrix"},
+      "response": {"type": "vector", "optional": true}
+    },
+    "parameters": {"defaults": {"dim": 2, "eta": 0.35, "frozen": false}},
+    "executor": "state.rank1_operator_write",
+    "claims": [
+      "Provides a deterministic calibration mechanism in which two addressed persistent writes can compose noncommutatively.",
+      "The frozen parameter is a destructive control: writes are observed but do not alter the resident operator."
+    ],
+    "provenance": {
+      "kind": "TheoryLab calibration primitive",
+      "source": "Inspired by the operator-composition abstraction; not a biological model"
+    },
+    "tags": ["persistent-state", "operator-write", "noncommutativity", "calibration"]
+  },
+  {
+    "id": "observer.l2",
+    "version": "0.1.0",
+    "role": "observer",
+    "summary": "Reports Euclidean/Frobenius norm of a scalar, vector, or matrix.",
+    "inputs": {"value": {"type": "any"}},
+    "outputs": {"value": {"type": "scalar"}},
+    "parameters": {"defaults": {}},
+    "executor": "observer.l2",
+    "claims": ["Provides a bounded scalar measurement without changing the upstream state."],
+    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
+    "tags": ["observer", "measurement"]
+  },
+  {
+    "id": "evaluator.difference",
+    "version": "0.1.0",
+    "role": "evaluator",
+    "summary": "Computes L2/Frobenius magnitude of the difference between two compatible values.",
+    "inputs": {"a": {"type": "any"}, "b": {"type": "any"}},
+    "outputs": {"value": {"type": "scalar"}, "delta": {"type": "any"}},
+    "parameters": {"defaults": {}},
+    "executor": "evaluator.difference",
+    "claims": ["Turns a paired difference into an explicit scalar diagnostic."],
+    "provenance": {"kind": "TheoryLab primitive", "source": "TheoryLab v0"},
+    "tags": ["evaluator", "paired-control"]
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://anttiluode.github.io/TheoryLab/schemas/history.schema.json",
+  "title": "TheoryLab Discovery History v0",
+  "type": "object",
+  "required": ["format", "history_id", "attempts"],
+  "properties": {
+    "format": {"const": "theorylab-history/v0"},
+    "history_id": {"type": "string"},
+    "description": {"type": "string"},
+    "attempts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "parent", "created_order", "theory", "variant", "score", "cost", "outcome", "observation"],
+        "properties": {
+          "id": {"type": "string"},
+          "parent": {"type": ["string", "null"]},
+          "created_order": {"type": "integer"},
+          "theory": {"type": "string"},
+          "variant": {"type": "string"},
+          "score": {"type": "number"},
+          "priority_hint": {"type": "number"},
+          "cost": {"type": "number", "minimum": 0},
+          "outcome": {"enum": ["support", "limit", "kill", "inconclusive"]},
+          "observation": {"type": "string"}
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

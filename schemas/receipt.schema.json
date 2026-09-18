@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://anttiluode.github.io/TheoryLab/schemas/receipt.schema.json",
+  "title": "TheoryLab Evidence Receipt v0",
+  "type": "object",
+  "required": ["format", "theory_id", "run_id", "status", "measurements", "gates", "claims", "limitations"],
+  "properties": {
+    "format": {"const": "theorylab-receipt/v0"},
+    "theory_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "status": {"enum": ["pass", "fail", "inconclusive"]},
+    "measurements": {"type": "object"},
+    "gates": {"type": "array"},
+    "claims": {"type": "object"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}
