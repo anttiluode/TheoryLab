@@ -28,3 +28,7 @@ jobs:
         run: python -m theorylab propose "Can useful computational coordinates and persistent write self-align through experience?" --json
       - name: Run promoted basis-alignment theory
         run: python -m theorylab run theories/learned_basis_alignment.json --json
+      - name: Generate coordinate-tracking proposal
+        run: python -m theorylab propose "Can a local online learner preserve useful computational identity when the resident coordinate system itself drifts?" --json
+      - name: Run online coordinate-tracking theory
+        run: python -m theorylab run theories/online_coordinate_tracking.json --json

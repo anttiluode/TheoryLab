@@ -85,6 +85,35 @@ class TheoryLabTests(unittest.TestCase):
         self.assertGreater(m["matched_basis_panel.learned_alignment_min"], 0.95)
         self.assertEqual(m["matched_basis_panel.frozen_composition_median"], 0.0)
 
+    def test_coordinate_tracking_question_promotes_thirdway_gate(self):
+        result = propose(
+            "Can a local online learner preserve useful computational identity when the resident coordinate system itself drifts?"
+        )
+        self.assertEqual(result["family"], "coordinate_tracking")
+        repos = {item["repo"] for item in result["selected_components"]}
+        self.assertIn("ThirdWay", repos)
+        constraint_ids = {item["id"] for item in result["selected_constraints"]}
+        self.assertIn("constraint.identity_is_continuation", constraint_ids)
+        self.assertTrue(result["execution"]["executable_now"])
+        self.assertEqual(result["execution"]["theory_path"], "theories/online_coordinate_tracking.json")
+
+    def test_online_coordinate_tracking_runs_frozen_gate(self):
+        theory = load_json(ROOT / "theories/online_coordinate_tracking.json")
+        receipt = run_theory(theory)
+        self.assertEqual(receipt["status"], "pass")
+        m = receipt["measurements"]
+        self.assertGreaterEqual(m["slow_coordinate_drift_panel.alignment_wins"], 7)
+        self.assertGreaterEqual(m["slow_coordinate_drift_panel.operator_rank_wins"], 7)
+        self.assertGreaterEqual(m["slow_coordinate_drift_panel.composition_wins"], 7)
+        self.assertGreater(
+            m["slow_coordinate_drift_panel.online_operator_rank_median"],
+            m["slow_coordinate_drift_panel.stale_oracle_operator_rank_median"],
+        )
+        self.assertGreater(
+            m["slow_coordinate_drift_panel.online_composition_median"],
+            m["slow_coordinate_drift_panel.stale_oracle_composition_median"],
+        )
+
     def test_active_identification_question_pulls_boring_controls(self):
         result = propose(
             "When does active intervention identify a hidden mechanism better after probe cost and dense causes?"

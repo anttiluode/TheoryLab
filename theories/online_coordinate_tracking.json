@@ -1,0 +1,161 @@
+{
+  "$schema": "../schemas/theory.schema.json",
+  "format": "theorylab-theory/v0",
+  "id": "online-coordinate-tracking-v3",
+  "title": "Can an online learner keep write coordinates useful while the resident computation moves?",
+  "question": "Can a local online learner preserve useful computational identity when the resident coordinate system itself drifts?",
+  "hypothesis": "If useful identity is a continuation rather than a fixed visible location, an online Sanger-style learner that keeps adapting to streaming resident state should preserve a richer persistent-write/operator-composition family under slow basis drift than the same learner frozen before drift or even a perfect initial modal basis left stale.",
+  "assumptions": [
+    "All adaptive arms receive the same deterministic state streams, dimensionality, fast eigenvalues, drift schedule, write law and evaluation protocol.",
+    "The online and frozen Sanger arms start from the same deterministic random basis and are identical through the pre-drift learning period.",
+    "The online Sanger update sees only current state samples; it is not given the hidden basis, drift angle or fast matrix.",
+    "The stale-oracle arm begins with the exact initial modal basis but is not transported as the modes rotate.",
+    "The moving-oracle arm is a positive upper control and is never available to the online learner."
+  ],
+  "nodes": [
+    {"id": "drifting_dynamics", "node": "world.drifting_recurrent_modes", "parameters": {"panel_size": 8, "pretrain_steps": 2000, "drift_steps": 5000, "post_steps": 500, "total_angle": 1.20, "noise_std": 0.30}},
+
+    {"id": "online_tracker", "node": "learner.online_coordinate_tracking", "parameters": {"strategy": "online_sanger", "eta": 0.006, "decay_scale": 30000.0, "reorth_every": 20}},
+    {"id": "frozen_tracker", "node": "attacker.coordinate_tracking", "parameters": {"strategy": "frozen_sanger", "eta": 0.006, "decay_scale": 30000.0, "reorth_every": 20}},
+    {"id": "stale_initial_oracle", "node": "attacker.coordinate_tracking", "parameters": {"strategy": "stale_oracle"}},
+    {"id": "moving_oracle", "node": "attacker.coordinate_tracking", "parameters": {"strategy": "oracle_moving"}},
+
+    {"id": "online_metrics", "node": "observer.tracking_operator_metrics", "parameters": {"write_gain": 0.60}},
+    {"id": "frozen_metrics", "node": "observer.tracking_operator_metrics", "parameters": {"write_gain": 0.60}},
+    {"id": "stale_oracle_metrics", "node": "observer.tracking_operator_metrics", "parameters": {"write_gain": 0.60}},
+    {"id": "moving_oracle_metrics", "node": "observer.tracking_operator_metrics", "parameters": {"write_gain": 0.60}},
+
+    {"id": "online_vs_frozen", "node": "evaluator.panel_dominance"}
+  ],
+  "edges": [
+    {"from": "drifting_dynamics.world", "to": "online_tracker.world"},
+    {"from": "drifting_dynamics.world", "to": "frozen_tracker.world"},
+    {"from": "drifting_dynamics.world", "to": "stale_initial_oracle.world"},
+    {"from": "drifting_dynamics.world", "to": "moving_oracle.world"},
+
+    {"from": "drifting_dynamics.world", "to": "online_metrics.world"},
+    {"from": "online_tracker.basis_set", "to": "online_metrics.basis_set"},
+
+    {"from": "drifting_dynamics.world", "to": "frozen_metrics.world"},
+    {"from": "frozen_tracker.basis_set", "to": "frozen_metrics.basis_set"},
+
+    {"from": "drifting_dynamics.world", "to": "stale_oracle_metrics.world"},
+    {"from": "stale_initial_oracle.basis_set", "to": "stale_oracle_metrics.basis_set"},
+
+    {"from": "drifting_dynamics.world", "to": "moving_oracle_metrics.world"},
+    {"from": "moving_oracle.basis_set", "to": "moving_oracle_metrics.basis_set"},
+
+    {"from": "online_metrics.metrics", "to": "online_vs_frozen.candidate"},
+    {"from": "frozen_metrics.metrics", "to": "online_vs_frozen.baseline"}
+  ],
+  "experiments": [
+    {
+      "id": "slow_coordinate_drift_panel",
+      "purpose": "Learn resident coordinates online, rotate the hidden modal basis through 1.2 radians, and compare continuous adaptation against an identically pretrained frozen learner, a perfect-but-stale initial basis, and the moving oracle.",
+      "protocol": [
+        {"id": "pretrain_then_drift_then_final_operator_audit", "inputs": {}}
+      ],
+      "measurements": [
+        {"name": "online_alignment_median", "source": "online_metrics.basis_alignment_median"},
+        {"name": "online_operator_rank_median", "source": "online_metrics.operator_rank_median"},
+        {"name": "online_composition_median", "source": "online_metrics.composition_score_median"},
+
+        {"name": "frozen_alignment_median", "source": "frozen_metrics.basis_alignment_median"},
+        {"name": "frozen_operator_rank_median", "source": "frozen_metrics.operator_rank_median"},
+        {"name": "frozen_composition_median", "source": "frozen_metrics.composition_score_median"},
+
+        {"name": "stale_oracle_alignment_median", "source": "stale_oracle_metrics.basis_alignment_median"},
+        {"name": "stale_oracle_operator_rank_median", "source": "stale_oracle_metrics.operator_rank_median"},
+        {"name": "stale_oracle_composition_median", "source": "stale_oracle_metrics.composition_score_median"},
+
+        {"name": "moving_oracle_operator_rank_median", "source": "moving_oracle_metrics.operator_rank_median"},
+        {"name": "moving_oracle_composition_median", "source": "moving_oracle_metrics.composition_score_median"},
+
+        {"name": "alignment_wins", "source": "online_vs_frozen.basis_alignment_wins"},
+        {"name": "operator_rank_wins", "source": "online_vs_frozen.operator_rank_wins"},
+        {"name": "composition_wins", "source": "online_vs_frozen.composition_score_wins"}
+      ]
+    }
+  ],
+  "attackers": [
+    {"id": "same-learner-frozen-before-drift", "kind": "stale-coordinate-control", "experiment": "slow_coordinate_drift_panel", "claim_attacked": "Initial coordinate learning is enough; continuing adaptation is unnecessary."},
+    {"id": "perfect-initial-basis-left-stale", "kind": "ThirdWay-identity-control", "experiment": "slow_coordinate_drift_panel", "claim_attacked": "A computational identity can be permanently attached to its original coordinate location."},
+    {"id": "moving-oracle", "kind": "positive-control", "experiment": "slow_coordinate_drift_panel", "claim_attacked": "The online learner may appear to improve only because the moving target itself destroys separability for every strategy."}
+  ],
+  "gates": [
+    {
+      "id": "online_alignment_wins_most_worlds",
+      "lhs": "slow_coordinate_drift_panel.alignment_wins",
+      "op": ">=",
+      "rhs": 7,
+      "meaning": "Continuous online learning must end closer to the current resident coordinate family than its identically pretrained frozen counterpart in at least 7/8 worlds."
+    },
+    {
+      "id": "online_operator_rank_wins_most_worlds",
+      "lhs": "slow_coordinate_drift_panel.operator_rank_wins",
+      "op": ">=",
+      "rhs": 7,
+      "meaning": "Online continuation must preserve a richer written-operator family than freezing the same learner in at least 7/8 worlds."
+    },
+    {
+      "id": "online_composition_wins_most_worlds",
+      "lhs": "slow_coordinate_drift_panel.composition_wins",
+      "op": ">=",
+      "rhs": 7,
+      "meaning": "Online continuation must preserve stronger A→B versus B→A composition separation than the frozen learner in at least 7/8 worlds."
+    },
+    {
+      "id": "online_beats_stale_perfect_start_on_operator_rank",
+      "lhs": "slow_coordinate_drift_panel.online_operator_rank_median",
+      "op": ">",
+      "rhs": "slow_coordinate_drift_panel.stale_oracle_operator_rank_median",
+      "meaning": "A continually updated imperfect learner must beat an initially perfect modal basis that is left behind as the computation moves."
+    },
+    {
+      "id": "online_beats_stale_perfect_start_on_composition",
+      "lhs": "slow_coordinate_drift_panel.online_composition_median",
+      "op": ">",
+      "rhs": "slow_coordinate_drift_panel.stale_oracle_composition_median",
+      "meaning": "The continuation advantage must survive the functional composition readout."
+    },
+    {
+      "id": "online_below_moving_oracle_operator_rank",
+      "lhs": "slow_coordinate_drift_panel.online_operator_rank_median",
+      "op": "<=",
+      "rhs": "slow_coordinate_drift_panel.moving_oracle_operator_rank_median",
+      "meaning": "The online learner remains bounded by the current-coordinate oracle."
+    },
+    {
+      "id": "online_below_moving_oracle_composition",
+      "lhs": "slow_coordinate_drift_panel.online_composition_median",
+      "op": "<=",
+      "rhs": "slow_coordinate_drift_panel.moving_oracle_composition_median",
+      "meaning": "The online composition result remains bounded by the moving oracle."
+    }
+  ],
+  "interpretation": {
+    "if_pass": [
+      "In this constructed slowly drifting recurrent family, continued online Sanger-style coordinate learning preserves the current write/operator organization better than freezing the same learner before drift.",
+      "A perfect initial modal basis can become functionally worse than an imperfect basis that continues to adapt, supporting the narrow statement that computational identity behaves like a continuation rather than a fixed coordinate location in this world."
+    ],
+    "if_fail": [
+      "The online/local learner does not earn coordinate continuation under the frozen drift gate; the v2 batch-covariance result does not extend to this streaming moving-target setting."
+    ],
+    "always_limit": [
+      "The drift is smooth, low-dimensional and slow relative to the learner; the system is still a constructed symmetric linear recurrence.",
+      "Periodic Gram-Schmidt stabilization makes this Sanger-style learner online but not strictly synapse-local.",
+      "No delayed credit signal is transported yet; this gate tests coordinate identity/continuation, not ThirdWay's full credit-transport claim."
+    ]
+  },
+  "limitations": [
+    "The hidden mode rotation law is supplied by the synthetic world.",
+    "The online learner receives raw state samples but not sparse event-limited observations.",
+    "The final operator audit uses the same synthetic write law as v2.",
+    "The next gate should add delayed credit or task learning whose eligibility trace must follow the moving coordinates."
+  ],
+  "provenance": [
+    {"relation": "generated-from-open-question", "source": "question.online_coordinate_tracking"},
+    {"relation": "attacker", "source": "ThirdWay T1/T2 lineage", "note": "Motivates stale-coordinate versus continuing computational identity controls."},
+    {"relation": "follows", "source": "learned-basis-alignment-v2", "note": "Replaces batch/static covariance alignment with streaming learning under coordinate drift."}
+  ]
+}
