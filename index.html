@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="TheoryLab — executable theory graphs for AI-assisted science">
+  <title>TheoryLab — executable theory graphs</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">EXECUTABLE SCIENCE / V0</div>
+      <h1>TheoryLab</h1>
+      <p>Mechanisms become nodes. Theories become graphs. Experiments leave receipts. Discovery history becomes replayable.</p>
+    </div>
+    <div class="top-actions">
+      <a href="theorylab.json">AI manifest ↗</a>
+      <a href="AI.md">AI protocol ↗</a>
+      <a href="https://github.com/anttiluode/TheoryLab">repository ↗</a>
+    </div>
+  </header>
+
+  <section class="status-strip">
+    <div><strong id="stat-nodes">—</strong><span>node contracts</span></div>
+    <div><strong id="stat-theories">—</strong><span>theories</span></div>
+    <div><strong id="stat-gates">—</strong><span>seed gates</span></div>
+    <div><strong id="stat-attempts">—</strong><span>replay attempts</span></div>
+    <div class="status-pill"><i></i><span id="runtime-status">loading contracts…</span></div>
+  </section>
+
+  <nav class="tabs" aria-label="TheoryLab views">
+    <button class="tab active" data-view="workbench">Workbench</button>
+    <button class="tab" data-view="nodes">Node library</button>
+    <button class="tab" data-view="receipts">Evidence</button>
+    <button class="tab" data-view="replay">Replay</button>
+    <button class="tab" data-view="ai">AI interface</button>
+  </nav>
+
+  <main>
+    <section class="view active" data-view="workbench">
+      <div class="split">
+        <article class="panel theory-panel">
+          <div class="panel-head">
+            <div><div class="eyebrow">LOADED THEORY</div><h2 id="theory-title">—</h2></div>
+            <span class="badge" id="theory-id">—</span>
+          </div>
+          <p class="question" id="theory-question"></p>
+          <div class="hypothesis"><small>HYPOTHESIS</small><p id="theory-hypothesis"></p></div>
+          <div id="graph" class="graph" aria-label="Theory graph"></div>
+          <div class="legend">
+            <span><i class="role-source"></i>source</span>
+            <span><i class="role-mechanism"></i>mechanism</span>
+            <span><i class="role-attacker"></i>control / attacker</span>
+          </div>
+        </article>
+
+        <aside class="panel inspector">
+          <div class="eyebrow">INSPECTOR</div>
+          <div id="inspector-empty" class="empty-state">
+            <div class="crosshair">+</div>
+            <h3>Select a node</h3>
+            <p>Inspect its scientific role, ports, executor, narrow claims and provenance.</p>
+          </div>
+          <div id="inspector-content" hidden></div>
+        </aside>
+      </div>
+
+      <div class="panel protocol-panel">
+        <div class="panel-head"><div><div class="eyebrow">PROTOCOL</div><h2>Experiments & gates</h2></div><span class="badge good">known-answer calibration</span></div>
+        <div id="experiments" class="experiment-grid"></div>
+        <div id="gates" class="gate-grid"></div>
+      </div>
+    </section>
+
+    <section class="view" data-view="nodes">
+      <div class="panel">
+        <div class="panel-head"><div><div class="eyebrow">REUSABLE PARTS</div><h2>Node library</h2></div><input id="node-search" placeholder="filter nodes, roles, tags…"></div>
+        <div id="node-library" class="node-library"></div>
+      </div>
+    </section>
+
+    <section class="view" data-view="receipts">
+      <div class="split evidence-split">
+        <article class="panel">
+          <div class="panel-head"><div><div class="eyebrow">EMPIRICAL RECEIPT</div><h2>What actually happened</h2></div><span class="badge good" id="receipt-status">—</span></div>
+          <div id="measurements" class="measurement-grid"></div>
+          <div id="receipt-gates"></div>
+        </article>
+        <article class="panel">
+          <div class="eyebrow">INTERPRETATION BOUNDARY</div>
+          <h2>Claims are not measurements</h2>
+          <div id="claim-ledger"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" data-view="replay">
+      <div class="split replay-split">
+        <article class="panel">
+          <div class="panel-head"><div><div class="eyebrow">DISCOVERY TREE</div><h2>History as replay world</h2></div><span class="badge">recorded outcomes only</span></div>
+          <div id="history-tree" class="history-tree"></div>
+        </article>
+        <aside class="panel replay-controls">
+          <div class="eyebrow">POLICY REPLAY</div>
+          <h2>Spend the same history differently</h2>
+          <label>Policy<select id="policy"><option value="best_first">best first</option><option value="breadth_first">breadth first</option><option value="depth_first">depth first</option></select></label>
+          <label>Budget<input id="budget" type="range" min="1" max="5" value="4"><output id="budget-out">4</output></label>
+          <button id="run-replay" class="primary">Replay recorded tree</button>
+          <div id="replay-result" class="replay-result"></div>
+          <p class="fineprint">Replay changes traversal of observed attempts. It never invents an outcome for an experiment that was not actually run.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="view" data-view="ai">
+      <div class="split">
+        <article class="panel">
+          <div class="eyebrow">MACHINE ENTRY POINT</div>
+          <h2><code>theorylab.json</code></h2>
+          <p>An agent starts from one compact manifest rather than scraping the UI. It exposes schemas, node catalogs, executable theories, evidence receipts, replay history and CLI commands.</p>
+          <pre id="manifest-preview"></pre>
+        </article>
+        <article class="panel">
+          <div class="eyebrow">INTENDED LOOP</div>
+          <h2>Compose → attack → remember</h2>
+          <ol class="ai-loop">
+            <li><b>Retrieve</b><span>Find port-compatible mechanisms and known controls.</span></li>
+            <li><b>Compose</b><span>Write an explicit theory graph and assumptions.</span></li>
+            <li><b>Validate</b><span>Reject dangling ports, type mismatches and unknown nodes.</span></li>
+            <li><b>Run</b><span>Execute isolated arms with persistent within-arm state.</span></li>
+            <li><b>Attack</b><span>Spend controls before promoting a story.</span></li>
+            <li><b>Receipt</b><span>Separate measurements, gates, interpretation and limitations.</span></li>
+            <li><b>Replay</b><span>Use the realized discovery tree to improve future search allocation.</span></li>
+          </ol>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>TheoryLab v0 · infrastructure, not an autonomous scientist</span>
+    <span>Dependency-free browser microscope · Python execution runtime</span>
+  </footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>

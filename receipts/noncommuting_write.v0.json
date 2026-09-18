@@ -1,0 +1,71 @@
+{
+  "claims": {
+    "killed": [],
+    "limited": [
+      "This calibration does not establish that dendrites, neural tissue, fluids, or other physical substrates use this mechanism."
+    ],
+    "supported": [
+      "The TheoryLab runtime can represent a persistent stateful mechanism whose addressed writes compose in an order-dependent way.",
+      "The destructive frozen-write control removes the effect in this calibration world."
+    ]
+  },
+  "experiments": {
+    "a_then_b": {
+      "measurements": {
+        "operator_norm": 1.5827211535832837,
+        "response_norm": 1.0594810050208545
+      }
+    },
+    "b_then_a": {
+      "measurements": {
+        "operator_norm": 1.5827211535832837,
+        "response_norm": 1.1758002593978283
+      }
+    },
+    "frozen_a_then_b": {
+      "measurements": {
+        "response_norm": 1.0
+      }
+    },
+    "frozen_b_then_a": {
+      "measurements": {
+        "response_norm": 1.0
+      }
+    }
+  },
+  "format": "theorylab-receipt/v0",
+  "gates": [
+    {
+      "id": "order_changes_response",
+      "lhs": 1.1758002593978283,
+      "meaning": "Reversing the same two writes changes the later probe response.",
+      "op": ">",
+      "passed": true,
+      "rhs": 1.0594810050208545
+    },
+    {
+      "id": "frozen_control_commutes",
+      "lhs": 1.0,
+      "meaning": "When persistent rewrite is disabled, the matched order manipulation has no effect.",
+      "op": "==",
+      "passed": true,
+      "rhs": 1.0
+    }
+  ],
+  "generated_at": "2026-09-18T09:45:00+00:00",
+  "limitations": [
+    "The rank-1 update law is deliberately constructed to provide a known-answer noncommutative case.",
+    "The experiment is infrastructure calibration, not evidence for a natural system."
+  ],
+  "measurements": {
+    "a_then_b.operator_norm": 1.5827211535832837,
+    "a_then_b.response_norm": 1.0594810050208545,
+    "b_then_a.operator_norm": 1.5827211535832837,
+    "b_then_a.response_norm": 1.1758002593978283,
+    "frozen_a_then_b.response_norm": 1.0,
+    "frozen_b_then_a.response_norm": 1.0
+  },
+  "run_id": "noncommuting-write-calibration-runtime",
+  "status": "pass",
+  "theory_id": "noncommuting-write-calibration"
+}

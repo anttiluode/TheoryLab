@@ -1,0 +1,68 @@
+{
+  "$schema": "../schemas/history.schema.json",
+  "format": "theorylab-history/v0",
+  "history_id": "theorylab-v0-seed",
+  "description": "Tiny realized discovery tree used to calibrate replay policies. Scores are infrastructure utility scores, not scientific truth probabilities.",
+  "attempts": [
+    {
+      "id": "seed",
+      "parent": null,
+      "created_order": 0,
+      "theory": "noncommuting-write-calibration",
+      "variant": "write-only scaffold",
+      "score": 0.25,
+      "priority_hint": 0.30,
+      "cost": 1.0,
+      "outcome": "limit",
+      "observation": "State could be written, but no matched order-control receipt existed yet."
+    },
+    {
+      "id": "add-order-arms",
+      "parent": "seed",
+      "created_order": 1,
+      "theory": "noncommuting-write-calibration",
+      "variant": "A->B versus B->A",
+      "score": 0.62,
+      "priority_hint": 0.72,
+      "cost": 1.0,
+      "outcome": "support",
+      "observation": "Order-sensitive operator response became measurable."
+    },
+    {
+      "id": "pretty-ui-first",
+      "parent": "seed",
+      "created_order": 2,
+      "theory": "ui-only-branch",
+      "variant": "visual graph without executable gates",
+      "score": 0.30,
+      "priority_hint": 0.15,
+      "cost": 1.0,
+      "outcome": "limit",
+      "observation": "Useful for inspection but did not improve scientific executability."
+    },
+    {
+      "id": "add-frozen-attacker",
+      "parent": "add-order-arms",
+      "created_order": 3,
+      "theory": "noncommuting-write-calibration",
+      "variant": "frozen-write destructive control",
+      "score": 0.86,
+      "priority_hint": 0.90,
+      "cost": 1.0,
+      "outcome": "support",
+      "observation": "The matched frozen-write arm collapses the order effect."
+    },
+    {
+      "id": "add-replay",
+      "parent": "add-frozen-attacker",
+      "created_order": 4,
+      "theory": "theorylab-meta",
+      "variant": "history as replayable discovery tree",
+      "score": 0.93,
+      "priority_hint": 0.95,
+      "cost": 1.0,
+      "outcome": "support",
+      "observation": "Recorded discovery can now be traversed under alternative exploration policies without rerunning experiments."
+    }
+  ]
+}

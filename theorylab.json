@@ -1,0 +1,32 @@
+{
+  "format": "theorylab-manifest/v0",
+  "name": "TheoryLab",
+  "purpose": "AI-readable executable theory graphs with evidence receipts and replayable discovery history",
+  "entrypoints": {
+    "ai_guide": "AI.md",
+    "human_ui": "index.html",
+    "node_catalog": "nodes/catalog.json",
+    "theories": ["theories/noncommuting_write.json"],
+    "receipts": ["receipts/noncommuting_write.v0.json"],
+    "discovery_history": "data/discovery_history.json"
+  },
+  "schemas": {
+    "node": "schemas/node.schema.json",
+    "theory": "schemas/theory.schema.json",
+    "receipt": "schemas/receipt.schema.json",
+    "history": "schemas/history.schema.json"
+  },
+  "runtime": {
+    "language": "python>=3.10",
+    "validate": "python -m theorylab validate",
+    "list": "python -m theorylab list",
+    "run": "python -m theorylab run theories/noncommuting_write.json --json",
+    "replay": "python -m theorylab replay --policy best_first --budget 4 --json"
+  },
+  "extension": {
+    "node_contract": "Every executable node declares semantic role, typed ports, parameters, executor and provenance.",
+    "theory_contract": "Every theory declares question, hypothesis, assumptions, node instances, edges, experiments, measurements, attackers and gates.",
+    "evidence_contract": "Every run may emit a receipt without mutating the theory definition.",
+    "history_contract": "Every discovery attempt can point to a parent attempt so alternative exploration policies can replay the realized tree."
+  }
+}
