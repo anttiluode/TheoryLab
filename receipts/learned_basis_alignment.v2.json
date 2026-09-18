@@ -1,0 +1,116 @@
+{
+  "format": "theorylab-receipt/v0",
+  "theory_id": "learned-basis-alignment-v2",
+  "run_id": "learned-basis-alignment-v2-runtime",
+  "generated_at": "2026-09-18T12:12:58.822187+00:00",
+  "status": "pass",
+  "source_ci": {
+    "workflow_run_id": 35343474844,
+    "job_id": 105594515527,
+    "python": "3.12",
+    "commit": "ccd341645463265c21b255bb4ce2bc881c131ecf"
+  },
+  "measurements": {
+    "matched_basis_panel.frozen_composition_median": 0.0,
+    "matched_basis_panel.frozen_operator_rank_median": 0.0,
+    "matched_basis_panel.learned_address_rank_median": 3.9999183025842875,
+    "matched_basis_panel.learned_alignment_median": 0.9977836413588963,
+    "matched_basis_panel.learned_alignment_min": 0.9872745614881188,
+    "matched_basis_panel.learned_composition_median": 0.7050181098722275,
+    "matched_basis_panel.learned_composition_min": 0.6951542971976213,
+    "matched_basis_panel.learned_operator_rank_median": 3.999918302584288,
+    "matched_basis_panel.learned_operator_rank_min": 3.9952580706797076,
+    "matched_basis_panel.oracle_composition_median": 0.7071067811865478,
+    "matched_basis_panel.oracle_operator_rank_median": 4.0,
+    "matched_basis_panel.random_composition_max": 0.5882747063149883,
+    "matched_basis_panel.random_composition_median": 0.3525044823257095,
+    "matched_basis_panel.random_operator_rank_max": 3.768821403225187,
+    "matched_basis_panel.random_operator_rank_median": 2.385885085716851,
+    "matched_basis_panel.visible_composition_median": 0.0,
+    "matched_basis_panel.visible_operator_rank_median": 1.0
+  },
+  "gates": [
+    {
+      "id": "learned_beats_every_random_seed_on_operator_rank",
+      "lhs": 3.9952580706797076,
+      "op": ">",
+      "rhs": 3.768821403225187,
+      "passed": true,
+      "meaning": "Across the eight-world panel, the worst learned basis produces a richer written-operator family than the best matched fixed-random basis."
+    },
+    {
+      "id": "learned_beats_every_random_seed_on_composition",
+      "lhs": 0.6951542971976213,
+      "op": ">",
+      "rhs": 0.5882747063149883,
+      "passed": true,
+      "meaning": "Across the panel, the weakest learned basis preserves stronger held-out A/B order-sensitive composition than the strongest random-basis control."
+    },
+    {
+      "id": "learned_basis_actually_aligns",
+      "lhs": 0.9872745614881188,
+      "op": ">",
+      "rhs": 0.95,
+      "passed": true,
+      "meaning": "Every learned basis recovers the hidden resident coordinate family up to sign and permutation."
+    },
+    {
+      "id": "learned_beats_visible_coordinates",
+      "lhs": 3.999918302584288,
+      "op": ">",
+      "rhs": 1.0,
+      "passed": true,
+      "meaning": "Learning improves the written-operator family over the maximally mixed visible-coordinate attacker."
+    },
+    {
+      "id": "functional_composition_survives",
+      "lhs": 0.7050181098722275,
+      "op": ">",
+      "rhs": 0.0,
+      "passed": true,
+      "meaning": "The learned-basis gain survives an operator-composition readout, not only a basis-similarity diagnostic."
+    },
+    {
+      "id": "learned_does_not_exceed_oracle_operator_family",
+      "lhs": 3.999918302584288,
+      "op": "<=",
+      "rhs": 4.0,
+      "passed": true,
+      "meaning": "The learned arm remains bounded by the supplied modal upper control on operator-family richness."
+    },
+    {
+      "id": "learned_does_not_exceed_oracle_composition",
+      "lhs": 0.7050181098722275,
+      "op": "<=",
+      "rhs": 0.7071067811865478,
+      "passed": true,
+      "meaning": "The learned composition readout remains below the oracle coordinate control."
+    },
+    {
+      "id": "persistent_write_is_required",
+      "lhs": 0.0,
+      "op": "==",
+      "rhs": 0.0,
+      "passed": true,
+      "meaning": "With oracle coordinates but zero persistent write gain, the held-out order-composition effect collapses."
+    }
+  ],
+  "claims": {
+    "supported": [
+      "In this constructed matched recurrent family, passive covariance experience is sufficient to discover coordinates that make later persistent writes nearly as separable and compositionally effective as the supplied modal basis.",
+      "The result closes the narrow v1 missing-executor loop for one learnability calibration: useful write coordinates need not be supplied explicitly in this world."
+    ],
+    "limited": [
+      "The hidden worlds are symmetric linear systems with deliberately Hadamard-mixed visible coordinates and distinct modal variances, a setting favorable to covariance learning.",
+      "This does not establish that generic local plasticity, arbitrary nonlinear RNNs, dendrites, or biological systems discover the same coordinates.",
+      "PCA/power iteration is a global covariance learner, not yet the Oja/local-learning version suggested by the older SimpleNeuron lineage."
+    ],
+    "killed": []
+  },
+  "limitations": [
+    "Visible coordinates are deliberately a hard attacker: each hidden address has identical squared visible-coordinate energy.",
+    "The coordinate learner sees a covariance sufficient statistic rather than raw streaming samples.",
+    "The composition readout is a normalized operator/probe-bank separation score, not an external semantic task.",
+    "A stronger next gate should replace batch covariance eigendecomposition with an online/local learner and test coordinate drift."
+  ]
+}

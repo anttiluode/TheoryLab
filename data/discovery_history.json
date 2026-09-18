@@ -11,8 +11,8 @@
       "theory": "noncommuting-write-calibration",
       "variant": "write-only scaffold",
       "score": 0.25,
-      "priority_hint": 0.30,
-      "cost": 1.0,
+      "priority_hint": 0.3,
+      "cost": 1,
       "outcome": "limit",
       "observation": "State could be written, but no matched order-control receipt existed yet."
     },
@@ -24,7 +24,7 @@
       "variant": "A->B versus B->A",
       "score": 0.62,
       "priority_hint": 0.72,
-      "cost": 1.0,
+      "cost": 1,
       "outcome": "support",
       "observation": "Order-sensitive operator response became measurable."
     },
@@ -34,9 +34,9 @@
       "created_order": 2,
       "theory": "ui-only-branch",
       "variant": "visual graph without executable gates",
-      "score": 0.30,
+      "score": 0.3,
       "priority_hint": 0.15,
-      "cost": 1.0,
+      "cost": 1,
       "outcome": "limit",
       "observation": "Useful for inspection but did not improve scientific executability."
     },
@@ -47,8 +47,8 @@
       "theory": "noncommuting-write-calibration",
       "variant": "frozen-write destructive control",
       "score": 0.86,
-      "priority_hint": 0.90,
-      "cost": 1.0,
+      "priority_hint": 0.9,
+      "cost": 1,
       "outcome": "support",
       "observation": "The matched frozen-write arm collapses the order effect."
     },
@@ -60,9 +60,33 @@
       "variant": "history as replayable discovery tree",
       "score": 0.93,
       "priority_hint": 0.95,
-      "cost": 1.0,
+      "cost": 1,
       "outcome": "support",
       "observation": "Recorded discovery can now be traversed under alternative exploration policies without rerunning experiments."
+    },
+    {
+      "id": "ground-basis-alignment-question",
+      "parent": "add-replay",
+      "created_order": 5,
+      "theory": "learned-basis-alignment-v2",
+      "variant": "Genealogy-grounded plan-only proposal",
+      "score": 0.95,
+      "priority_hint": 0.98,
+      "cost": 1,
+      "outcome": "limit",
+      "observation": "The proposer recovered the coordinate-learnability boundary and a matched attacker set, but correctly refused execution because three adapters were missing."
+    },
+    {
+      "id": "promote-basis-alignment-gate",
+      "parent": "ground-basis-alignment-question",
+      "created_order": 6,
+      "theory": "learned-basis-alignment-v2",
+      "variant": "covariance-learned coordinates versus visible/random/oracle controls",
+      "score": 0.98,
+      "priority_hint": 0.99,
+      "cost": 2,
+      "outcome": "support",
+      "observation": "All eight frozen gates passed across the eight-world synthetic panel. The result supports learnability in a PCA-friendly matched recurrent family and leaves online/local learning plus coordinate drift open."
     }
   ]
 }

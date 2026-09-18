@@ -14,7 +14,8 @@
       "theories/learned_basis_alignment.json"
     ],
     "receipts": [
-      "receipts/noncommuting_write.v0.json"
+      "receipts/noncommuting_write.v0.json",
+      "receipts/learned_basis_alignment.v2.json"
     ],
     "discovery_history": "data/discovery_history.json"
   },

@@ -138,3 +138,31 @@ replay search
 ```
 
 Do not mix them. A composition proposal becomes part of replay history only after it is actually executed and an outcome is recorded.
+
+## 13. First completed promotion
+
+The `basis_alignment` family is no longer plan-only.
+
+For the canonical question:
+
+```text
+Can useful computational coordinates and persistent write self-align through experience?
+```
+
+the proposal now returns:
+
+```text
+execution.status      ready
+execution.executable  true
+theory_path           theories/learned_basis_alignment.json
+```
+
+Run the promoted theory rather than treating the proposal as evidence:
+
+```bash
+python -m theorylab run theories/learned_basis_alignment.json --json
+```
+
+The committed v2 receipt is `receipts/learned_basis_alignment.v2.json`.
+
+The PASS resolves only the constructed batch-covariance case. The remaining high-value discriminator is online/local coordinate learning under basis drift.
