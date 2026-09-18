@@ -32,6 +32,8 @@ Negative results are first-class receipts. A failed theory can constrain future 
 python -m theorylab validate
 python -m theorylab list
 python -m theorylab run theories/noncommuting_write.json
+python -m theorylab propose "Can useful computational coordinates and persistent write self-align through experience?" --json
+python -m theorylab run theories/learned_basis_alignment.json --json
 python -m theorylab replay --policy best_first --budget 4
 python -m unittest discover -s tests -v
 ```
@@ -137,3 +139,50 @@ The proposer is intentionally simple and auditable: deterministic token/family s
 ## Status
 
 v0 made theories executable. v1 makes a first part of the accumulated research history **machine-selectable for theory construction**, while keeping historical claims, negative results, proposal plans, executable theories, and empirical receipts as separate objects.
+
+## v2 — the first proposal becomes an experiment
+
+The exact basis-alignment question used to calibrate v1 no longer stops at `plan-only`.
+
+TheoryLab implemented the proposal's three missing executors:
+
+```text
+matched recurrent world
+coordinate learner
+operator-family metrics
+```
+
+and promoted the proposal to [`theories/learned_basis_alignment.json`](theories/learned_basis_alignment.json).
+
+The design and eight gates were frozen in [`docs/BASIS_ALIGNMENT_V2.md`](docs/BASIS_ALIGNMENT_V2.md) before the CI result was interpreted.
+
+### Result
+
+Across eight matched synthetic recurrent worlds:
+
+| metric | learned | fixed random | visible | oracle |
+|---|---:|---:|---:|---:|
+| median written-operator rank | **3.999918** | 2.385885 | 1.000000 | 4.000000 |
+| median composition score | **0.705018** | 0.352504 | 0.000000 | 0.707107 |
+| median hidden-basis alignment | **0.997784** | — | 0.250000 | 1.000000 |
+
+The stronger panel-wide comparisons also passed:
+
+- worst learned operator rank **3.995258** > best random **3.768821**;
+- worst learned composition **0.695154** > best random **0.588275**;
+- minimum learned hidden-basis alignment **0.987275** > frozen 0.95 gate;
+- oracle coordinates with persistent write disabled give composition score **0**.
+
+All **8 / 8 predeclared gates passed** in Python 3.11 and 3.12 CI.
+
+See [`results/BASIS_ALIGNMENT_V2.md`](results/BASIS_ALIGNMENT_V2.md) and the committed [`evidence receipt`](receipts/learned_basis_alignment.v2.json).
+
+### Claim boundary
+
+This is deliberately a **narrow existence/learnability result**. The matched worlds are symmetric linear systems with distinct modal variances and Hadamard-mixed visible coordinates, a setting favorable to covariance PCA. The learner is global batch covariance learning, not local biological plasticity.
+
+The next unresolved gate is therefore no longer merely “can coordinates be learned?” It is:
+
+> **Can an online/local learner track useful computational identity when the coordinates themselves drift?**
+
+That is the first place where the older ThirdWay continuation/credit idea becomes a direct experimental component of TheoryLab.

@@ -3,11 +3,13 @@
   "questions": [
     {
       "id": "question.learned_basis_alignment",
-      "state": "open",
+      "state": "partially-resolved",
       "question": "Can useful computational coordinates and persistent-write coordinates self-align through experience rather than being supplied?",
       "origin": "derived-from-current-genealogy-boundary",
       "source": "FrequencyAddressedState-dependentOperatorComposition v4",
-      "discriminator": "Compare oracle modal coordinates, fixed random coordinates, locally learned coordinates and task-trained coordinates under the same fast dynamics and state budget."
+      "discriminator": "Compare oracle modal coordinates, fixed random coordinates, locally learned coordinates and task-trained coordinates under the same fast dynamics and state budget.",
+      "result": "TheoryLab v2 learned-basis-alignment PASS: covariance PCA recovered hidden coordinates with minimum alignment 0.987275; worst learned operator rank/composition exceeded best fixed-random controls across eight constructed worlds.",
+      "next_discriminator": "Replace batch/global covariance PCA with an online/local Oja/Sanger-style learner and test whether useful write coordinates can be tracked when the resident basis drifts."
     },
     {
       "id": "question.active_intervention_cost_density",
@@ -40,6 +42,14 @@
       "origin": "Genealogy data/questions.json",
       "source": "late-relevance-training-confound",
       "discriminator": "Match training error before dormant/switch evaluation."
+    },
+    {
+      "id": "question.online_coordinate_tracking",
+      "state": "open",
+      "question": "Can a local online learner preserve useful computational identity when the resident coordinate system itself drifts?",
+      "origin": "TheoryLab v2 result boundary",
+      "source": "learned-basis-alignment-v2",
+      "discriminator": "After online organization, rotate or continuously drift the hidden modal basis. Compare local online adaptation with and without explicit/covariant identity transport, a frozen learned basis, visible coordinates and an oracle moving basis under the same write/composition gate."
     }
   ]
 }
