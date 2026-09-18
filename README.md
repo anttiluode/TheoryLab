@@ -34,6 +34,8 @@ python -m theorylab list
 python -m theorylab run theories/noncommuting_write.json
 python -m theorylab propose "Can useful computational coordinates and persistent write self-align through experience?" --json
 python -m theorylab run theories/learned_basis_alignment.json --json
+python -m theorylab propose "Can a local online learner preserve useful computational identity when the resident coordinate system itself drifts?" --json
+python -m theorylab run theories/online_coordinate_tracking.json --json
 python -m theorylab replay --policy best_first --budget 4
 python -m unittest discover -s tests -v
 ```
@@ -186,3 +188,23 @@ The next unresolved gate is therefore no longer merely “can coordinates be lea
 > **Can an online/local learner track useful computational identity when the coordinates themselves drift?**
 
 That is the first place where the older ThirdWay continuation/credit idea becomes a direct experimental component of TheoryLab.
+
+## v3 — identity becomes continuation
+
+V2 learned a useful basis in a static world. V3 asks what happens when that basis stops being the place where the computation lives.
+
+The online Sanger/GHA tracker and its frozen attacker are identical through pretraining. Then the hidden modal basis moves. The frozen learner keeps the old coordinates; the online learner continues seeing only the state stream.
+
+Across the eight-world panel, online tracking wins **8 / 8** matched worlds on alignment, written-operator rank and composition.
+
+| final metric | online | frozen same learner | perfect initial basis left stale | moving oracle |
+|---|---:|---:|---:|---:|
+| basis alignment | **0.933199** | 0.856282 | 0.711595 | 1.000000 |
+| operator rank | **3.826453** | 3.644081 | 2.844856 | 4.000000 |
+| composition | **0.646431** | 0.576472 | 0.476548 | 0.707107 |
+
+All **7 / 7 predeclared gates passed** on Python 3.11 and 3.12.
+
+See [`docs/ONLINE_COORDINATE_TRACKING_V3.md`](docs/ONLINE_COORDINATE_TRACKING_V3.md), [`results/ONLINE_COORDINATE_TRACKING_V3.md`](results/ONLINE_COORDINATE_TRACKING_V3.md) and the committed [`receipt`](receipts/online_coordinate_tracking.v3.json).
+
+This is a narrow synthetic continuation result, not a general learning claim. The next open gate is stronger: **if reward arrives after the coordinates move, must the eligibility / credit trace move with computational identity too?**

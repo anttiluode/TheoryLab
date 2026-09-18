@@ -5,6 +5,12 @@ from copy import deepcopy
 from typing import Any, Callable
 
 from .basis_alignment import learn_basis, make_world_panel, operator_family_metrics
+from .coordinate_tracking import (
+    make_drifting_world_panel,
+    panel_dominance,
+    track_basis,
+    tracking_operator_metrics,
+)
 
 
 def _as_vector(value: Any) -> list[float]:
@@ -111,6 +117,22 @@ def observer_operator_family_metrics(inputs: dict[str, Any], params: dict[str, A
     return operator_family_metrics(inputs["world"], inputs["basis_set"], params)
 
 
+def world_drifting_recurrent_modes(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    return {"world": make_drifting_world_panel(params)}
+
+
+def learner_online_coordinate_tracking(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    return {"basis_set": track_basis(inputs["world"], params)}
+
+
+def observer_tracking_operator_metrics(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    return tracking_operator_metrics(inputs["world"], inputs["basis_set"], params)
+
+
+def evaluator_panel_dominance(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    return panel_dominance(inputs["candidate"], inputs["baseline"])
+
+
 def observer_l2(inputs: dict[str, Any], params: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
     return {"value": _l2(inputs["value"])}
 
@@ -128,6 +150,10 @@ EXECUTORS: dict[str, Callable[[dict[str, Any], dict[str, Any], dict[str, Any]], 
     "world.matched_recurrent_modes": world_matched_recurrent_modes,
     "learner.coordinate_basis": learner_coordinate_basis,
     "observer.operator_family_metrics": observer_operator_family_metrics,
+    "world.drifting_recurrent_modes": world_drifting_recurrent_modes,
+    "learner.online_coordinate_tracking": learner_online_coordinate_tracking,
+    "observer.tracking_operator_metrics": observer_tracking_operator_metrics,
+    "evaluator.panel_dominance": evaluator_panel_dominance,
     "observer.l2": observer_l2,
     "evaluator.difference": evaluator_difference,
 }

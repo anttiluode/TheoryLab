@@ -430,5 +430,291 @@
       "basis-alignment",
       "panel"
     ]
+  },
+  {
+    "id": "world.drifting_recurrent_modes",
+    "version": "0.3.0",
+    "role": "world",
+    "summary": "Builds matched dense recurrent worlds whose hidden modal coordinates rotate smoothly after a stationary pretraining period.",
+    "inputs": {},
+    "outputs": {
+      "world": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "dim": 4,
+        "panel_size": 8,
+        "pretrain_steps": 2000,
+        "drift_steps": 5000,
+        "post_steps": 500,
+        "total_angle": 1.2,
+        "noise_std": 0.3,
+        "seed": 100,
+        "stream_seed": 2000,
+        "eigenvalues": [
+          0.94,
+          0.79,
+          0.54,
+          0.28
+        ]
+      }
+    },
+    "executor": "world.drifting_recurrent_modes",
+    "claims": [
+      "Provides the same deterministic streaming recurrent worlds and drift schedule to every tracking strategy.",
+      "The hidden modal basis moves smoothly while the eigenvalue spectrum is fixed, isolating coordinate continuation from changing modal timescales."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v3 generated-theory adapter",
+      "source": "TheoryLab v2 online-coordinate-tracking open question + ThirdWay continuation boundary"
+    },
+    "tags": [
+      "world",
+      "recurrent",
+      "modal",
+      "basis-drift",
+      "continuation",
+      "matched-control",
+      "synthetic"
+    ]
+  },
+  {
+    "id": "learner.online_coordinate_tracking",
+    "version": "0.3.0",
+    "role": "learner",
+    "summary": "Tracks a moving resident coordinate basis from streaming state samples with a Sanger/generalized-Hebbian update.",
+    "inputs": {
+      "world": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "basis_set": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "strategy": "online_sanger",
+        "eta": 0.006,
+        "decay_scale": 30000,
+        "reorth_every": 20,
+        "learner_seed_offset": 5000
+      }
+    },
+    "executor": "learner.online_coordinate_tracking",
+    "claims": [
+      "The online_sanger strategy sees streaming state only; it is not given the hidden basis, drift angle or fast matrix.",
+      "It tests whether continuing experience can preserve useful adaptation coordinates as the resident computation moves."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v3 generated-theory adapter",
+      "source": "TheoryLab v2 result boundary; Sanger/Oja lineage; ThirdWay identity-continuation hypothesis"
+    },
+    "tags": [
+      "learner",
+      "online",
+      "sanger",
+      "oja",
+      "basis",
+      "tracking",
+      "drift",
+      "continuation"
+    ]
+  },
+  {
+    "id": "attacker.coordinate_tracking",
+    "version": "0.3.0",
+    "role": "attacker",
+    "summary": "Matched coordinate-tracking controls: freeze the same learner before drift, keep a perfect initial basis stale, or expose the moving oracle.",
+    "inputs": {
+      "world": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "basis_set": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "strategy": "frozen_sanger",
+        "eta": 0.006,
+        "decay_scale": 30000,
+        "reorth_every": 20,
+        "learner_seed_offset": 5000
+      }
+    },
+    "executor": "learner.online_coordinate_tracking",
+    "claims": [
+      "frozen_sanger is identical to the online learner through pretraining and differs only by stopping updates when drift begins.",
+      "stale_oracle is initially perfect but fixed; oracle_moving is the positive upper control at the final coordinate location."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v3 attacker adapter",
+      "source": "ThirdWay T1/T2 stale-coordinate boundary"
+    },
+    "tags": [
+      "attacker",
+      "basis",
+      "tracking",
+      "stale-coordinate",
+      "oracle",
+      "drift",
+      "continuation"
+    ]
+  },
+  {
+    "id": "observer.tracking_operator_metrics",
+    "version": "0.3.0",
+    "role": "observer",
+    "summary": "Audits a tracked basis at the final hidden coordinate orientation using the same written-operator and noncommuting-composition metrics as v2.",
+    "inputs": {
+      "world": {
+        "type": "any"
+      },
+      "basis_set": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "basis_alignment_median": {
+        "type": "scalar"
+      },
+      "basis_alignment_min": {
+        "type": "scalar"
+      },
+      "basis_alignment_max": {
+        "type": "scalar"
+      },
+      "address_rank_median": {
+        "type": "scalar"
+      },
+      "address_rank_min": {
+        "type": "scalar"
+      },
+      "address_rank_max": {
+        "type": "scalar"
+      },
+      "operator_rank_median": {
+        "type": "scalar"
+      },
+      "operator_rank_min": {
+        "type": "scalar"
+      },
+      "operator_rank_max": {
+        "type": "scalar"
+      },
+      "composition_score_median": {
+        "type": "scalar"
+      },
+      "composition_score_min": {
+        "type": "scalar"
+      },
+      "composition_score_max": {
+        "type": "scalar"
+      },
+      "write_selectivity_median": {
+        "type": "scalar"
+      },
+      "write_selectivity_min": {
+        "type": "scalar"
+      },
+      "write_selectivity_max": {
+        "type": "scalar"
+      },
+      "metrics": {
+        "type": "any"
+      }
+    },
+    "parameters": {
+      "defaults": {
+        "write_gain": 0.6
+      }
+    },
+    "executor": "observer.tracking_operator_metrics",
+    "claims": [
+      "Reuses the v2 operator-family audit at the final moving-basis orientation so the new causal ingredient is coordinate tracking rather than a changed measurement.",
+      "Returns per-world metric rows for matched panel dominance tests."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v3 metric adapter",
+      "source": "TheoryLab v2 operator-family metrics"
+    },
+    "tags": [
+      "observer",
+      "operator-rank",
+      "composition",
+      "tracking",
+      "basis-alignment",
+      "panel"
+    ]
+  },
+  {
+    "id": "evaluator.panel_dominance",
+    "version": "0.3.0",
+    "role": "evaluator",
+    "summary": "Counts matched per-world wins and margins for basis alignment, written-operator rank and composition score.",
+    "inputs": {
+      "candidate": {
+        "type": "any"
+      },
+      "baseline": {
+        "type": "any"
+      }
+    },
+    "outputs": {
+      "panel_size": {
+        "type": "scalar"
+      },
+      "basis_alignment_wins": {
+        "type": "scalar"
+      },
+      "basis_alignment_median_margin": {
+        "type": "scalar"
+      },
+      "basis_alignment_min_margin": {
+        "type": "scalar"
+      },
+      "operator_rank_wins": {
+        "type": "scalar"
+      },
+      "operator_rank_median_margin": {
+        "type": "scalar"
+      },
+      "operator_rank_min_margin": {
+        "type": "scalar"
+      },
+      "composition_score_wins": {
+        "type": "scalar"
+      },
+      "composition_score_median_margin": {
+        "type": "scalar"
+      },
+      "composition_score_min_margin": {
+        "type": "scalar"
+      }
+    },
+    "parameters": {
+      "defaults": {}
+    },
+    "executor": "evaluator.panel_dominance",
+    "claims": [
+      "Uses matched world identities rather than pooled medians alone, making a 7/8 continuation gate explicit."
+    ],
+    "provenance": {
+      "kind": "TheoryLab v3 evaluator",
+      "source": "TheoryLab v3 predeclared tracking gate"
+    },
+    "tags": [
+      "evaluator",
+      "paired-control",
+      "panel",
+      "tracking",
+      "wins"
+    ]
   }
 ]

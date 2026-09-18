@@ -45,11 +45,21 @@
     },
     {
       "id": "question.online_coordinate_tracking",
-      "state": "open",
+      "state": "partially-resolved",
       "question": "Can a local online learner preserve useful computational identity when the resident coordinate system itself drifts?",
       "origin": "TheoryLab v2 result boundary",
       "source": "learned-basis-alignment-v2",
-      "discriminator": "After online organization, rotate or continuously drift the hidden modal basis. Compare local online adaptation with and without explicit/covariant identity transport, a frozen learned basis, visible coordinates and an oracle moving basis under the same write/composition gate."
+      "discriminator": "After online organization, rotate or continuously drift the hidden modal basis. Compare local online adaptation with and without explicit/covariant identity transport, a frozen learned basis, visible coordinates and an oracle moving basis under the same write/composition gate.",
+      "result": "TheoryLab v3 PASS: online Sanger tracking beat the identical frozen learner in 8/8 worlds on final alignment, written-operator rank and composition; it also beat a perfect initial modal basis left stale after drift.",
+      "next_discriminator": "Add delayed consequence and compare eligibility or credit transported with the tracked computational coordinates against an equally current basis whose credit trace remains in stale coordinates."
+    },
+    {
+      "id": "question.credit_transport_with_identity",
+      "state": "open",
+      "question": "When computational coordinates move, must delayed credit or eligibility move with them as well?",
+      "origin": "TheoryLab v3 result boundary / ThirdWay T2",
+      "source": "online-coordinate-tracking-v3",
+      "discriminator": "Use the same drifting recurrent substrate and matched online coordinate tracker, then compare transported eligibility, stale-coordinate eligibility, frozen coordinates and a moving-oracle credit control under delayed reward."
     }
   ]
 }

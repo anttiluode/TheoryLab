@@ -38,9 +38,15 @@ SYNONYMS = {
     "oscillations": "field",
     "memory": "persistent-state",
     "persistent": "persistent-state",
+    "drifts": "drift",
+    "drifting": "drift",
+    "tracked": "track",
+    "tracking": "track",
+    "continues": "continuation",
 }
 
 FAMILY_HINTS = [
+    ("coordinate_tracking", {"online","local","drift","track","continuation","identity","moving","stale"}),
     ("basis_alignment", {"basis","modal","operator","write","adaptation","alignment","frequency"}),
     ("active_identification", {"probe","intervention","identification","diagnose","bayesian","information","budget"}),
     ("causal_decoding", {"decoder","algorithm","abstraction","state-machine","causal","decompilation"}),
@@ -49,6 +55,36 @@ FAMILY_HINTS = [
 ]
 
 FAMILY_TEMPLATES: dict[str, dict[str, Any]] = {
+    "coordinate_tracking": {
+        "hypothesis": "Useful computational identity should behave like a continuation through moving coordinates: an online learner that keeps adapting should preserve persistent-write/operator organization better than the same learner frozen before drift or a perfect initial basis left stale.",
+        "graph": [
+            ("drifting_dynamics", "world"),
+            ("online_tracker", "learner"),
+            ("frozen_tracker", "attacker"),
+            ("stale_initial_oracle", "attacker"),
+            ("moving_oracle", "attacker"),
+            ("operator_observer", "observer"),
+            ("panel_dominance", "evaluator"),
+        ],
+        "edges": [
+            ("drifting_dynamics", "online_tracker", "streaming resident state"),
+            ("drifting_dynamics", "frozen_tracker", "same stream, freeze before drift"),
+            ("drifting_dynamics", "stale_initial_oracle", "perfect t0 coordinates, no continuation"),
+            ("drifting_dynamics", "moving_oracle", "current hidden coordinate upper bound"),
+            ("online_tracker", "operator_observer", "tracked coordinates"),
+            ("frozen_tracker", "panel_dominance", "matched stale learner"),
+            ("operator_observer", "panel_dominance", "current written-operator family"),
+        ],
+        "experiment": "Pretrain online and frozen Sanger-style learners on identical stationary streams, then rotate the hidden modal basis slowly while only the online learner continues adapting. At the final orientation, compare coordinate alignment, written-operator rank and A->B versus B->A composition against the frozen learner, a perfect-but-stale initial oracle, and the moving oracle.",
+        "attackers": ["same online learner frozen before drift", "perfect initial modal basis left stale", "moving modal oracle"],
+        "gates": [
+            "online continuation beats the frozen same-learner control in at least 7/8 matched worlds on alignment, operator rank and composition",
+            "online continuation beats the perfect-but-stale initial basis on median operator rank and composition",
+            "the online learner remains bounded by the moving oracle"
+        ],
+        "missing_executors": [],
+        "theory_path": "theories/online_coordinate_tracking.json"
+    },
     "basis_alignment": {
         "hypothesis": "A learned coordinate system can become useful when it aligns persistent adaptation with resident dynamical directions rather than arbitrary visible coordinates.",
         "graph": [
@@ -253,6 +289,7 @@ def _component_score(question_tokens: set[str], component: dict[str, Any], famil
     overlap = sorted(question_tokens & tokens)
     score = float(len(overlap))
     family_boosts = {
+        "coordinate_tracking": {"genealogy.third_way", "genealogy.frequency_addressed_operator_composition", "genealogy.gax", "genealogy.anttis_neuron", "genealogy.not_so_simple_neuron"},
         "basis_alignment": {"genealogy.frequency_addressed_operator_composition", "genealogy.third_way", "genealogy.gax", "genealogy.anttis_neuron", "genealogy.not_so_simple_neuron"},
         "active_identification": {"genealogy.evox", "genealogy.another_odd_thing", "genealogy.rajoitusten_hierarkia", "genealogy.alternative_neuron"},
         "causal_decoding": {"genealogy.neural_algorithm_decoding", "genealogy.evox", "genealogy.another_odd_thing"},
@@ -274,6 +311,7 @@ def _constraint_score(question_tokens: set[str], constraint: dict[str, Any], fam
     overlap = sorted(question_tokens & tokens)
     score = float(len(overlap))
     family_tags = {
+        "coordinate_tracking": {"basis","identity","continuation","drift","tracking","stale-coordinates"},
         "basis_alignment": {"basis","alignment","operator","modal"},
         "active_identification": {"active-probing","intervention","cost","fixed-cover"},
         "causal_decoding": {"identifiability","decoder","causal-abstraction","intervention"},
